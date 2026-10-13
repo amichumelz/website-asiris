@@ -103,8 +103,9 @@ img{display:block}
 .vlist{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
 .vc{display:flex;align-items:center;gap:16px;padding:10px;border:1.5px solid #E8E8E5;border-radius:18px;text-align:left;width:100%;transition:border-color .2s,background .2s,transform .2s;animation:up .4s var(--ease) both}
 .vc:hover{transform:translateY(-2px)}
-.vc .th{width:118px;height:76px;border-radius:12px;background:#F2F1EE;flex:none;overflow:hidden}
-.vc .th img{width:100%;height:100%;object-fit:cover}
+.vc .th{width:118px;height:76px;border-radius:12px;background:#f5f6f3;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:4px}
+.vc .th img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.15));transition:transform .3s var(--ease)}
+.vc:hover .th img{transform:scale(1.06)}
 .vc .m{flex:1;min-width:0}
 .vc b{font-size:17px;letter-spacing:-.3px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vc .ic{display:flex;gap:14px;color:#6F6F6A;font-size:14px;margin-top:4px}
@@ -237,7 +238,9 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
 .sec h4{gap:10px}.sec h4 small{font-size:11.5px;color:var(--ink2);font-weight:600;text-align:right;max-width:55%}
 .opts{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
 .opt{display:flex;align-items:center;gap:12px;padding:9px;border:1.5px solid #E8E8E5;border-radius:16px;text-align:left;width:100%;transition:border-color .2s,background .2s}
-.opt .ph{width:84px;height:58px;border-radius:11px;flex:none;background:#F2F1EE}
+.opt .ph{width:84px;height:58px;border-radius:11px;flex:none;background:#f5f6f3;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:3px}
+.opt .ph img{width:100%;height:100%;object-fit:cover}
+.opt .ph img[src*="car_"]{object-fit:contain;filter:drop-shadow(0 3px 6px rgba(0,0,0,.12))}
 .opt .m{flex:1;min-width:0}
 .opt b{font-size:14px;display:block}
 .opt small{display:block;font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -260,7 +263,9 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
 .backl{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13.5px;color:var(--g-d);margin-bottom:12px}
 
 .sum{display:flex;gap:12px;align-items:center;background:var(--g-ll);border-radius:16px;padding:10px;margin-bottom:14px}
-.sum .ph{width:64px;height:50px;border-radius:12px;flex:none}
+.sum .ph{width:64px;height:50px;border-radius:12px;flex:none;background:#f5f6f3;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2px}
+.sum .ph img{width:100%;height:100%;object-fit:cover}
+.sum .ph img[src*="car_"]{object-fit:contain;filter:drop-shadow(0 3px 5px rgba(0,0,0,.12))}
 .sum b{display:block}
 .sum small{color:var(--ink2);font-size:12.5px}
 .fld{margin-bottom:11px}
@@ -287,7 +292,9 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
 .btn.dark{background:var(--ink)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .ci{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.ci .ph{width:56px;height:56px;border-radius:13px;flex:none}
+.ci .ph{width:56px;height:56px;border-radius:13px;flex:none;background:#f5f6f3;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2px}
+.ci .ph img{width:100%;height:100%;object-fit:cover}
+.ci .ph img[src*="car_"]{object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.12))}
 .ci .m{flex:1;min-width:0}
 .ci b{font-size:14.5px;display:block}
 .ci small{display:block;color:var(--ink2);font-size:12.3px}
@@ -496,16 +503,37 @@ const CONFIG = {
   ownerEmail: '' // your business email (shown to customers as backup contact)
 };
 
-/* ---------- photos (Unsplash) ---------- */
-const U=(id,w=800)=>`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`;
+/* ---------- photos (Unsplash + Local Assets) ---------- */
+const U=(id,w=800)=>{
+  if(!id)return '';
+  if(id.startsWith('assets/')||id.startsWith('http://')||id.startsWith('https://')||id.endsWith('.png')||id.endsWith('.jpg')||id.endsWith('.webp')) return id;
+  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`;
+};
 const IMG={
   hero:'1647878872662-50d50c74d40e', island:'1715178724773-a243cfbc2e9e', cable:'1622665645573-b0b5dea09d98', cable2:'1698348186443-4b4f72668a30',
   sky:'1669812849320-283db1bf8216', beach:'1591251010190-43c22baa46b0', sunset:'1537181591432-412768324e9c', palms:'1570533459920-076b827c7b69', isle:'1587437043326-7e9f2730725c',
-  plane:'1571086291540-b137111fa1c7', airportCar:'1731755429012-83a172bec732',
-  sedan:'1623869675781-80aa31012a5a', mpv:'1675311183084-755007dbb223', van10:'1694802180731-1ee2ea37692a',
-  van14:'1549194898-60fd030ecc0f', van18:'1565049186696-93c9418576a6', prem:'1558101847-e017d5e414a4', bus:'1544620347-c4fd4a3d5957',
-  mgShare:'1626703526460-bc2c57e108a7', mgB:'1643276715928-f0210284bea8', mgRiver:'1612103183244-7598b792bb05', eagle:'1583316369024-8a4eb52ec261', mgBoat:'1673777140345-e153a272b1a5',
-  atv1:'1584660042073-f22ae92b1c05', atv2:'1618785721219-ec37485bb647', atv3:'1675428604186-a165487f857c', atv4:'1515007507252-fc11563a273e'
+  plane:'1571086291540-b137111fa1c7',
+  airportCar:'assets/pkg_airport.jpg',
+  sedan:'assets/car_sedan.png',
+  mpv:'assets/car_mpv.png',
+  van10:'assets/car_van10.png',
+  van14:'assets/car_van14.png',
+  van18:'assets/car_van18.png',
+  prem:'assets/car_prem.png',
+  bus:'assets/car_bus.png',
+  pkgAirport:'assets/pkg_airport.jpg',
+  pkgCharter:'assets/pkg_charter.jpg',
+  pkgMangrove:'assets/pkg_mangrove.jpg',
+  pkgAtv:'assets/pkg_atv.jpg',
+  mgShare:'assets/pkg_mangrove.jpg',
+  mgB:'assets/pkg_mangrove.jpg',
+  mgRiver:'1612103183244-7598b792bb05',
+  eagle:'1583316369024-8a4eb52ec261',
+  mgBoat:'1673777140345-e153a272b1a5',
+  atv1:'assets/pkg_atv.jpg',
+  atv2:'assets/pkg_atv.jpg',
+  atv3:'1675428604186-a165487f857c',
+  atv4:'1515007507252-fc11563a273e'
 };
 const ph=(id,w,extra='')=>`<div class="ph">${extra}<img src="${U(id,w)}" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
 
@@ -541,21 +569,21 @@ const byId=id=>P.find(p=>p.id===id);
 /* ---------- packages (cards) ---------- */
 const G = {
   airport:{title:'Langkawi Airport Transfer – Private Car',meta:'Langkawi Airport · One way',sub:'Sedan to 44-seater coach • Meet & greet',
-    badge:'Best seller',left:'🚐 Door to door',imgs:[IMG.airportCar,IMG.plane,IMG.sedan,IMG.prem,IMG.van10],
+    badge:'Best seller',left:'🚐 Door to door',imgs:[IMG.pkgAirport,IMG.sedan,IMG.prem,IMG.van10,IMG.bus],
     chips:['Private vehicle','Hotel & resort transfers','WhatsApp confirmation'],optLabel:'Choose your vehicle',optNote:'Price per vehicle',
     hl:['✈️ Airport pickup & drop-off','🔒 Private transportation','🏨 Hotel & resort transfers','👨‍👩‍👧 Vehicles for every group size'],
     inc:['Private car & driver','Meet at arrival','Luggage space','Advance booking']},
   private:{title:'Langkawi Private Car Charter with Driver',meta:'Island-wide · 6–8 hours',sub:'Your own driver • Go anywhere you like',
-    badge:'Popular',left:'🗺️ Flexible route',imgs:[IMG.cable,IMG.sky,IMG.isle,IMG.sedan,IMG.van14],
+    badge:'Popular',left:'🗺️ Flexible route',imgs:[IMG.pkgCharter,IMG.sedan,IMG.van14,IMG.prem,IMG.cable],
     chips:['6–8 hours','Hotel pickup','Flexible sightseeing'],optLabel:'Choose your vehicle',optNote:'Price per vehicle, per day',
     hl:['🚡 SkyCab & Sky Bridge','🏖️ Pantai Cenang','🦅 Eagle Square','🌅 Tanjung Rhu & more — your choice'],
     inc:['Private vehicle & driver','Hotel pickup & drop-off','Flexible stops','6–8 hours']},
   mangrove:{title:'Kilim Mangrove Tour – Sharing or Private Boat',meta:'Kilim Geoforest Park · 2–4 hours',sub:'Private option available • Pickup available',
-    badge:'Must do',left:'🦅 Eagle watching',imgs:[IMG.mgShare,IMG.mgB,IMG.eagle,IMG.island,IMG.mgRiver],
+    badge:'Must do',left:'🦅 Eagle watching',imgs:[IMG.pkgMangrove,IMG.mgB,IMG.eagle,IMG.island,IMG.mgRiver],
     chips:['UNESCO Geopark','Private boat option','Meal & pickup (sharing)'],optLabel:'Choose your package',optNote:'Sharing = per person · Private = per boat',
     inc:null},
   atv:{title:'ATV Jungle Ride to a Hidden Waterfall',meta:'Langkawi · 50–70 min',sub:'Free pickup • Up to 2 riders per ATV',
-    badge:'Adventure',left:'🚐 Free pickup',imgs:[IMG.atv1,IMG.atv2,IMG.atv3,IMG.atv4],
+    badge:'Adventure',left:'🚐 Free pickup',imgs:[IMG.pkgAtv,IMG.atv2,IMG.atv3,IMG.atv4],
     chips:['Automatic ATV','Beginner friendly','Free pickup'],optLabel:'Your ride',optNote:'Price per ATV',
     inc:['Helmet provided','Tour guide','Drinking water','Automatic gear ATV','Free pickup']}
 };
@@ -616,7 +644,7 @@ function initHero(){
       box.insertAdjacentHTML('afterbegin',`<video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" poster="${U(IMG.airportCar,1200)}"><source src="${esc(CONFIG.heroVideo)}" type="video/mp4"></video>`);
       return;
     }
-    const list = [IMG.airportCar, IMG.cable2, IMG.sky, IMG.island, IMG.van10];
+    const list = [IMG.pkgAirport, IMG.pkgCharter, IMG.cable2, IMG.pkgMangrove, IMG.pkgAtv];
     box.insertAdjacentHTML('afterbegin', list.map((id, i) => `<img src="${U(id, 1200)}" alt="" loading="lazy" class="${i ? '' : 'on'}" onerror="this.remove()">`).join(''));
     let i = 0;
     setInterval(() => {
@@ -694,13 +722,13 @@ function twBook(){
 function renderHome(){
   const t=['✈️ Airport pickup every day','🦅 Eagle watching at Kilim','🚡 SkyCab & Sky Bridge trips','🏍️ ATV to a hidden waterfall','🚐 Vans up to 18 seats & 44-seater coach','💳 Pay online · DuitNow QR · FPX'];
   document.getElementById('ticker').innerHTML=[...t,...t].map(x=>`<span>${x}</span>`).join('');
-  const svc=[['airport','Airport',IMG.plane,''],['private','Private Car',IMG.sedan,''],['mangrove','Mangrove',IMG.mgShare,'HOT'],['atv','ATV',IMG.atv1,'']];
+  const svc=[['airport','Airport',IMG.pkgAirport,''],['private','Private Car',IMG.pkgCharter,''],['mangrove','Mangrove',IMG.pkgMangrove,'HOT'],['atv','ATV',IMG.pkgAtv,'']];
   document.getElementById('svcGrid').innerHTML=svc.map(s=>`<button onclick="${s[0]==='airport'||s[0]==='private'?`goTransfer('${s[0]}')`:`openPkg('${s[0]}')`}">${s[3]?`<span class="hot">${s[3]}</span>`:''}${ph(s[2],200)}<span class="t">${s[1]}</span></button>`).join('');
   const promos=[
-    {img:IMG.eagle,k:'Sharing tour',t:'Mangrove tour with meal & return pickup',p:'Adult RM120 →',g:'mangrove',o:'mg-share'},
-    {img:IMG.atv2,k:'Free pickup',t:'ATV ride to a hidden waterfall',p:'RM250 / ATV →',g:'atv',o:'atv'},
-    {img:IMG.plane,k:'Just landed?',t:'Your driver is waiting at arrival',p:'From RM60 →',g:'airport',o:'at-sedan'},
-    {img:IMG.cable,k:'Full day',t:'Own car & driver for 6–8 hours',p:'From RM250 →',g:'private',o:'pt-sedan'}
+    {img:IMG.pkgMangrove,k:'Sharing tour',t:'Mangrove tour with meal & return pickup',p:'Adult RM120 →',g:'mangrove',o:'mg-share'},
+    {img:IMG.pkgAtv,k:'Free pickup',t:'ATV ride to a hidden waterfall',p:'RM250 / ATV →',g:'atv',o:'atv'},
+    {img:IMG.pkgAirport,k:'Just landed?',t:'Your driver is waiting at arrival',p:'From RM60 →',g:'airport',o:'at-sedan'},
+    {img:IMG.pkgCharter,k:'Full day',t:'Own car & driver for 6–8 hours',p:'From RM250 →',g:'private',o:'pt-sedan'}
   ];
   const pr=document.getElementById('promos');
   pr.innerHTML=promos.map(p=>`<button class="promo" onclick="openPkg('${p.g}','${p.o}')"><img src="${U(p.img,900)}" alt="" loading="lazy" onerror="this.style.display='none'"><div class="tx"><div><span class="k">${p.k}</span><h3>${p.t}</h3></div><span class="pill">${p.p}</span></div></button>`).join('');
