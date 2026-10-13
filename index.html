@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aairis Langkawi – Transfers & Tours</title>
+<meta name="description" content="Langkawi airport transfer, private car charter, Kilim mangrove tour and ATV tour. Book & pay online with Aairis Langkawi Venture.">
+<meta name="theme-color" content="#00B14F">
+<link rel="icon" type="image/png" href="logo-icon.png">
+<link rel="apple-touch-icon" href="logo-icon.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#00B14F; --g-d:#00873C; --g-dd:#00402A; --g-l:#E5F7ED; --g-ll:#F3FBF6;
+  --ink:#1A1A1A; --ink2:#5E6670; --ink3:#9AA2AA; --line:#ECEFF1; --bg:#F5F6F7;
+  --navy:#16213E; --red:#EE4C4C; --gold:#FFB020;
+  --shadow:0 2px 10px rgba(16,24,40,.06); --shadow2:0 16px 48px rgba(16,24,40,.2);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#fff;color:var(--ink);line-height:1.4;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+img{display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+.ph{background:linear-gradient(135deg,#d6efe1,#a3d9bb);overflow:hidden;position:relative}
+.ph img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.3px}
+.logo-img{height:46px;width:auto;object-fit:contain;flex:none;transition:transform .25s var(--ease)}
+.logo:hover .logo-img{transform:scale(1.05)}
+.logo small{display:block;font-size:11px;font-weight:600;color:var(--ink2)}
+.nav{display:none;gap:2px;margin-left:22px}
+.nav a{padding:8px 14px;border-radius:99px;font-weight:600;font-size:14px;color:var(--ink2)}
+.nav a:hover{background:var(--g-l);color:var(--g-d)}
+.top-r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.ib{position:relative;width:42px;height:42px;border-radius:50%;background:var(--g-l);color:var(--g-d);display:grid;place-items:center}
+.ib svg{width:20px;height:20px}
+.badge{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+.badge[data-n="0"],.badge:empty{display:none}
+.wa-top{display:none;align-items:center;gap:8px;background:var(--g);color:#fff;padding:10px 16px;border-radius:99px;font-weight:700;font-size:13.5px}
+
+/* ---------- hero (green, Grab-style) ---------- */
+.hero{background:linear-gradient(160deg,var(--g) 0%,var(--g-d) 100%);color:#fff;padding:22px 0 70px;position:relative;overflow:hidden}
+.hero .bub{position:absolute;border-radius:50%;background:rgba(255,255,255,.08);animation:float 9s ease-in-out infinite}
+.hero .b1{right:-80px;top:-60px;width:320px;height:320px}
+.hero .b2{left:-60px;bottom:-120px;width:260px;height:260px;animation-delay:-3s;background:rgba(255,255,255,.06)}
+.hero .b3{left:45%;top:20%;width:90px;height:90px;animation-delay:-5s;background:rgba(255,255,255,.07)}
+@keyframes float{50%{transform:translate(14px,-18px) scale(1.05)}}
+.hero .wrap{position:relative;z-index:1}
+.pin{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:99px}
+.hero h1{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:14px 0 6px;font-weight:800}
+.hero h1 em{font-style:normal;color:#C8FFDE}
+.hero p{opacity:.9;font-size:15px;max-width:480px}
+.up{opacity:0;transform:translateY(18px);animation:up .8s var(--ease) forwards}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}
+@keyframes up{to{opacity:1;transform:none}}
+.search{margin-top:18px;background:#fff;color:var(--ink);border-radius:16px;display:flex;align-items:center;gap:10px;padding:14px 16px;box-shadow:var(--shadow2);max-width:520px;width:100%;text-align:left}
+.search .dot{width:10px;height:10px;border-radius:50%;background:var(--g);flex:none;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--g-l)}50%{box-shadow:0 0 0 9px rgba(0,177,79,.12)}}
+.search span{flex:1;color:var(--ink2);font-weight:500}
+.search b{font-size:13px;color:var(--g-d);background:var(--g-l);padding:6px 10px;border-radius:99px}
+.hero-art{display:none}
+
+/* ticker */
+.ticker{background:var(--g-ll);color:var(--g-d);overflow:hidden;white-space:nowrap;font-weight:700;font-size:13px;padding:10px 0;border-radius:14px;margin-top:16px}
+.ticker .tr{display:inline-flex;gap:34px;animation:tick 30s linear infinite;padding-left:34px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- transfer widget ---------- */
+.tw-wrap{display:grid;gap:18px;align-items:start}
+.tw{background:#fff;border:1px solid #E6E6E3;border-radius:26px;box-shadow:0 18px 50px rgba(30,30,20,.10);padding:20px;max-width:560px;width:100%}
+.tw .seg{margin-bottom:16px}
+.route{position:relative;padding-left:30px}
+.route::before{content:"";position:absolute;left:8px;top:26px;bottom:26px;width:2px;background:#D9D9D6}
+.route .rr{display:flex;align-items:center;gap:10px;min-height:46px;position:relative}
+.route .rr::before{content:"";position:absolute;left:-30px;width:14px;height:14px;border-radius:50%;box-sizing:border-box}
+.route .rr.a::before{border:2.5px solid #777}
+.route .rr.b::before{background:#111}
+.route input,.route .fixed{flex:1;border:0;outline:0;font-size:18px;font-weight:700;letter-spacing:-.3px;background:transparent;padding:6px 0;min-width:0;color:var(--ink)}
+.route input::placeholder{color:#B5B5B0;font-weight:600}
+.route input:focus{box-shadow:inset 0 -2px 0 var(--g)}
+.swap{width:36px;height:36px;border-radius:50%;background:var(--bg);display:grid;place-items:center;flex:none;transition:transform .35s var(--ease)}
+.swap.spin{transform:rotate(180deg)}
+.trip{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;color:#6F6F6A;font-size:15px;margin-top:8px}
+.trip input{border:0;background:var(--bg);border-radius:9px;padding:6px 8px;font-size:14px;color:var(--ink);font-weight:600;outline:0}
+.trip .px{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border-radius:9px;padding:3px 4px}
+.trip .px button{width:26px;height:26px;border-radius:7px;background:#fff;font-weight:800}
+.trip .px b{min-width:16px;text-align:center;color:var(--ink);font-size:14px}
+.flt{margin-top:8px;width:100%;border:1.5px dashed #DADAD5;border-radius:10px;padding:8px 10px;font-size:13.5px;outline:0}
+.tw hr{border:0;border-top:1px solid #EBEBE8;margin:16px 0}
+.vlist{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+.vc{display:flex;align-items:center;gap:16px;padding:10px;border:1.5px solid #E8E8E5;border-radius:18px;text-align:left;width:100%;transition:border-color .2s,background .2s,transform .2s;animation:up .4s var(--ease) both}
+.vc:hover{transform:translateY(-2px)}
+.vc .th{width:118px;height:76px;border-radius:12px;background:#F2F1EE;flex:none;overflow:hidden}
+.vc .th img{width:100%;height:100%;object-fit:cover}
+.vc .m{flex:1;min-width:0}
+.vc b{font-size:17px;letter-spacing:-.3px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vc .ic{display:flex;gap:14px;color:#6F6F6A;font-size:14px;margin-top:4px}
+.vc .ic span{display:inline-flex;align-items:center;gap:5px}
+.vc .ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8}
+.vc .pr{font-size:18px;font-weight:800;letter-spacing:-.3px;flex:none;padding-right:6px}
+.vc.sel{border:2px solid #111;background:#FAFAF9;padding:9.5px}
+.vc.dim{opacity:.45}
+.more{display:block;width:100%;margin-top:10px;font-weight:700;font-size:13.5px;color:var(--g-d);padding:8px}
+.twfoot{margin-top:14px}
+.twnote{text-align:center;color:#7A7A75;font-size:13px;margin-top:12px}
+.tw-side{display:none}
+
+/* ---------- service grid ---------- */
+.svc-card{background:#fff;border-radius:22px;box-shadow:var(--shadow);margin-top:-48px;position:relative;z-index:2;padding:16px 10px 12px}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.svc button{display:flex;flex-direction:column;align-items:center;gap:7px;padding:4px 2px;border-radius:14px;position:relative}
+.svc .ph{width:62px;height:62px;border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:transform .3s var(--ease)}
+.svc button:hover .ph{transform:translateY(-4px) rotate(-2deg)}
+.svc .t{font-size:12px;font-weight:700;text-align:center;line-height:1.2}
+.svc .hot{position:absolute;top:-5px;right:4px;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;z-index:2;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+
+/* ---------- promo carousel ---------- */
+.promos{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:18px 0 2px;scrollbar-width:none;scroll-behavior:smooth}
+.promos::-webkit-scrollbar{display:none}
+.promo{flex:0 0 86%;scroll-snap-align:start;border-radius:18px;height:156px;color:#fff;position:relative;overflow:hidden;text-align:left}
+.promo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.promo:hover img{transform:scale(1.06)}
+.promo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.75),rgba(0,0,0,.2) 70%,transparent)}
+.promo .tx{position:relative;z-index:1;padding:16px;height:100%;display:flex;flex-direction:column;justify-content:space-between;max-width:74%}
+.promo .k{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:var(--gold);color:#3b2a00;align-self:flex-start;padding:3px 8px;border-radius:6px}
+.promo h3{font-size:17px;line-height:1.2;letter-spacing:-.3px;margin-top:8px}
+.promo .pill{align-self:flex-start;background:#fff;color:var(--ink);font-weight:800;font-size:12px;padding:6px 11px;border-radius:99px}
+.pdots{display:flex;gap:5px;justify-content:center;margin-top:9px}
+.pdots i{width:6px;height:6px;border-radius:9px;background:#cfd6db;transition:.25s}
+.pdots i.on{width:18px;background:var(--g)}
+
+/* ---------- package cards (Klook-style) ---------- */
+.hs{padding-top:28px}
+.hh{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px;gap:10px}
+.hh h2{font-size:20px;letter-spacing:-.5px;font-weight:800}
+.hh p{font-size:13px;color:var(--ink2);margin-top:2px}
+.cards{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;padding:4px 16px 10px}
+.cards::-webkit-scrollbar{display:none}
+.pk{flex:0 0 78%;scroll-snap-align:start;text-align:left;border-radius:20px;padding:8px;transition:background .25s,transform .35s var(--ease),box-shadow .25s;display:flex;flex-direction:column}
+.pk:hover{background:#F3F1FB;transform:translateY(-3px)}
+.pk .ph{aspect-ratio:3/2;border-radius:16px}
+.pk .ph img{transition:transform .7s var(--ease)}
+.pk:hover .ph img{transform:scale(1.07)}
+.pk .bdg{position:absolute;left:10px;top:10px;z-index:1;background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:9px;display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.25)}
+.pk .bdg i{font-style:normal;width:18px;height:18px;border-radius:50%;background:#FF5B2E;display:grid;place-items:center;font-size:10px}
+.heart{position:absolute;right:10px;top:10px;z-index:2;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s}
+.heart:active{transform:scale(.85)}
+.heart svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2}
+.heart.on svg{fill:var(--red);stroke:var(--red);animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.35)}}
+.pk .meta{font-size:12px;font-weight:700;color:var(--ink2);letter-spacing:.3px;text-transform:uppercase;margin:12px 6px 4px}
+.pk h3{font-size:18px;line-height:1.25;letter-spacing:-.4px;margin:0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pk .sub{font-size:13.5px;color:var(--ink2);margin:6px 6px 0}
+.pk .bot{margin:14px 6px 4px;margin-top:auto;padding-top:14px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.pk .bot .l{font-size:12.5px;font-weight:700;color:var(--g-d);display:flex;align-items:center;gap:5px}
+.pk .bot .r{font-size:14px;color:var(--ink2);white-space:nowrap}
+.pk .bot .r b{font-size:20px;color:var(--ink);letter-spacing:-.4px}
+
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--bg);border-radius:18px;padding:14px 6px;margin-top:26px;text-align:center}
+.trust b{display:block;font-size:12px;margin-top:4px}
+.trust small{font-size:10.5px;color:var(--ink2)}
+.trust .e{font-size:22px}
+
+/* explore strip */
+.explore{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:130px 130px;gap:8px;border-radius:20px;overflow:hidden;margin-top:12px}
+.explore .ph:first-child{grid-row:span 2}
+.explore .ph span{position:absolute;left:10px;bottom:10px;z-index:1;color:#fff;font-weight:800;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.explore .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.5))}
+
+footer{margin-top:34px;background:var(--g-dd);color:#cde9da;padding:26px 0 28px;font-size:13px}
+footer .wrap{display:grid;gap:14px}
+footer b{color:#fff}
+footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);color:#fff;font-weight:700;padding:10px 15px;border-radius:99px;margin-top:8px}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- bottom nav ---------- */
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:46;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+.bnav a,.bnav button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;font-weight:700;color:var(--ink3);padding:3px;position:relative}
+.bnav svg{width:23px;height:23px}
+.bnav .on{color:var(--g)}
+.bnav .badge{top:-3px;right:calc(50% - 22px)}
+.cartbar{position:fixed;left:12px;right:12px;bottom:calc(70px + env(safe-area-inset-bottom));z-index:44;background:var(--g);color:#fff;border-radius:14px;padding:11px 16px;display:none;align-items:center;justify-content:space-between;box-shadow:var(--shadow2);font-weight:800;animation:up .4s var(--ease)}
+.cartbar.show{display:flex}
+.cartbar small{display:block;font-weight:500;font-size:11.5px;opacity:.92}
+.fab{position:fixed;right:14px;bottom:calc(136px + env(safe-area-inset-bottom));z-index:43;width:52px;height:52px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:var(--shadow2)}
+.fab::before{content:"";position:absolute;inset:0;border-radius:50%;background:#25D366;animation:ring 2.4s infinite;z-index:-1}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.7);opacity:0}}
+.fab svg{width:26px;height:26px;fill:#fff}
+
+/* ---------- sheets ---------- */
+.ov{position:fixed;inset:0;background:rgba(15,20,25,.55);z-index:60;opacity:0;pointer-events:none;transition:.25s}
+.ov.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:#fff;border-radius:22px 22px 0 0;max-height:94vh;display:flex;flex-direction:column;transform:translateY(105%);visibility:hidden;transition:transform .35s var(--ease),visibility 0s .35s}
+.sheet.show{transform:none;visibility:visible;transition:transform .35s var(--ease),visibility 0s}
+.sheet .grab{width:42px;height:5px;border-radius:9px;background:#D7DDE2;margin:9px auto 0;flex:none}
+.sheet .hd{display:flex;align-items:center;gap:10px;padding:10px 16px 12px;border-bottom:1px solid var(--line);flex:none}
+.sheet .hd h3{font-size:17px;flex:1;letter-spacing:-.3px}
+.x{width:34px;height:34px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:16px;flex:none}
+.sheet .bd{padding:14px 16px;overflow-y:auto;flex:1;overscroll-behavior:contain}
+.sheet .fo{padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);flex:none;background:#fff}
+
+/* package detail */
+#pkgSheet .bd{padding:0}
+.pg{position:relative}
+.gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;height:250px;border-radius:22px 22px 0 0}
+.gal::-webkit-scrollbar{display:none}
+.gal .ph{flex:0 0 100%;scroll-snap-align:start;height:100%}
+.gtop{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;z-index:2}
+.gtop .x{background:#fff;box-shadow:var(--shadow)}
+.gtop .heart{position:static}
+.gcount{position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px}
+.pin2{padding:16px 16px 4px}
+.pin2 .meta{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.3px}
+.pin2 h2{font-size:21px;line-height:1.2;letter-spacing:-.5px;margin:4px 0 8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11.5px;font-weight:700;background:var(--bg);color:var(--ink2);padding:4px 9px;border-radius:99px}
+.chip.g{background:var(--g-l);color:var(--g-d)}
+.sec{padding:14px 16px;border-top:8px solid var(--bg)}
+.sec h4{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.sec h4{gap:10px}.sec h4 small{font-size:11.5px;color:var(--ink2);font-weight:600;text-align:right;max-width:55%}
+.opts{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
+.opt{display:flex;align-items:center;gap:12px;padding:9px;border:1.5px solid #E8E8E5;border-radius:16px;text-align:left;width:100%;transition:border-color .2s,background .2s}
+.opt .ph{width:84px;height:58px;border-radius:11px;flex:none;background:#F2F1EE}
+.opt .m{flex:1;min-width:0}
+.opt b{font-size:14px;display:block}
+.opt small{display:block;font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opt .p{font-weight:800;font-size:15px;text-align:right;flex:none}
+.opt .p small{font-weight:600;font-size:10.5px;color:var(--ink3)}
+.opt .rad{width:20px;height:20px;border-radius:50%;border:2px solid #cfd6db;flex:none;position:relative;transition:.2s}
+.opt.sel{border:2px solid #111;background:#FAFAF9;padding:8.5px}
+.opt.sel .rad{border-color:#111}
+.opt.sel .rad::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#111}
+.hl{display:flex;flex-wrap:wrap;gap:6px}
+.hl span{font-size:12.5px;font-weight:600;background:var(--bg);padding:6px 10px;border-radius:10px;animation:up .35s var(--ease) both}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checks span{font-size:13px;font-weight:600;display:flex;gap:7px;align-items:center}
+.checks span::before{content:"✓";width:20px;height:20px;border-radius:50%;background:var(--g-l);color:var(--g-d);display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+.pfoot{display:flex;align-items:center;gap:12px}
+.pfoot .pr{flex:none}
+.pfoot .pr small{display:block;font-size:11.5px;color:var(--ink2);font-weight:600}
+.pfoot .pr b{font-size:21px;letter-spacing:-.4px}
+.pfoot .btn{flex:1}
+.backl{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13.5px;color:var(--g-d);margin-bottom:12px}
+
+.sum{display:flex;gap:12px;align-items:center;background:var(--g-ll);border-radius:16px;padding:10px;margin-bottom:14px}
+.sum .ph{width:64px;height:50px;border-radius:12px;flex:none}
+.sum b{display:block}
+.sum small{color:var(--ink2);font-size:12.5px}
+.fld{margin-bottom:11px}
+.fld label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:5px}
+.fld input,.fld textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;background:#fff;font-size:15px;outline:none}
+.fld input:focus,.fld textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px var(--g-l)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border-radius:12px;padding:4px;gap:4px}
+.seg button{padding:10px;border-radius:9px;font-weight:700;font-size:13px;color:var(--ink2);transition:.2s}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.qty{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.qty:last-child{border:0}
+.qty b{display:block;font-size:14.5px}
+.qty small{color:var(--ink2);font-size:12.5px}
+.step{display:flex;align-items:center;gap:12px}
+.step button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--g);color:var(--g);font-size:19px;font-weight:700;display:grid;place-items:center;line-height:1}
+.step button:disabled{border-color:var(--line);color:#C3CAD0}
+.step span{min-width:20px;text-align:center;font-weight:800}
+.btn{width:100%;background:var(--g);color:#fff;font-weight:800;font-size:15.5px;padding:14px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:background .2s,transform .15s}
+.btn:hover{background:var(--g-d)}
+.btn:active{transform:scale(.98)}
+.btn.c{justify-content:center}
+.btn.ghost{background:var(--g-l);color:var(--g-d)}
+.btn.dark{background:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.ci{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ci .ph{width:56px;height:56px;border-radius:13px;flex:none}
+.ci .m{flex:1;min-width:0}
+.ci b{font-size:14.5px;display:block}
+.ci small{display:block;color:var(--ink2);font-size:12.3px}
+.ci .r{text-align:right;flex:none}
+.ci .rm{font-size:12px;color:var(--red);font-weight:700;margin-top:6px}
+.empty{text-align:center;padding:30px 10px;color:var(--ink2)}
+.empty .e{font-size:50px}
+.totals{background:var(--bg);border-radius:14px;padding:12px 14px;margin:14px 0;font-size:14px}
+.totals div{display:flex;justify-content:space-between;padding:3px 0}
+.totals .g{font-weight:800;font-size:17px;border-top:1px dashed #cfd6db;margin-top:6px;padding-top:9px}
+.h4{font-size:14px;font-weight:800;margin:16px 0 10px}
+.pay{display:grid;gap:8px}
+.pay label{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:11px;cursor:pointer}
+.pay label:has(input:checked){border-color:var(--g);background:var(--g-ll)}
+.pay input{accent-color:var(--g);width:18px;height:18px}
+.pay .pi{width:38px;height:38px;border-radius:11px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:19px;flex:none}
+.pay b{display:block;font-size:14px}
+.pay small{color:var(--ink2);font-size:12px}
+.done{text-align:center}
+.done .ok{width:72px;height:72px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-size:34px;margin:6px auto 12px;animation:pop .5s}
+.done h3{font-size:20px}
+.done .oid{display:inline-block;background:var(--bg);font-weight:800;padding:6px 12px;border-radius:99px;margin:8px 0 12px;letter-spacing:.5px}
+.qr{width:210px;height:210px;margin:6px auto 10px;border-radius:16px;border:2px dashed #cdd5da;display:grid;place-items:center;color:var(--ink2);font-size:13px;padding:14px}
+.qr img,.qr canvas{width:100%!important;height:100%!important;object-fit:contain}
+.note{font-size:12.5px;color:var(--ink2);background:#FFF8E6;border-radius:12px;padding:10px 12px;text-align:left;margin:10px 0}
+.act{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.act .t{display:flex;justify-content:space-between;font-weight:800}
+.act small{color:var(--ink2);font-size:12.5px;display:block}
+.st{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#FFF3D6;color:#8A6100}
+.toast{position:fixed;left:50%;top:72px;transform:translate(-50%,-20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;font-weight:600;font-size:14px;z-index:80;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- tablet / desktop ---------- */
+@media (min-width:700px){
+  .pk{flex:0 0 44%}
+  .promo{flex:0 0 calc(50% - 5px)}
+  .explore{grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:190px 190px}
+  footer .wrap{grid-template-columns:2fr 1fr 1fr}
+}
+@media (min-width:1000px){
+  body{padding-bottom:0}
+  .nav,.wa-top{display:flex}
+  .bnav,.cartbar{display:none!important}
+  .fab{bottom:24px;right:24px}
+  .hero{padding:48px 0 110px}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:30px}
+  .hero h1{font-size:46px}
+  .hero p{font-size:17px}
+  .hero-art{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .hero-art button{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:10px;backdrop-filter:blur(6px);text-align:left;color:#fff;transition:transform .35s var(--ease),background .25s;animation:up .8s var(--ease) both}
+  .hero-art button:nth-child(2){animation-delay:.15s;margin-top:18px}
+  .hero-art button:nth-child(3){animation-delay:.3s}
+  .hero-art button:nth-child(4){animation-delay:.45s;margin-top:18px}
+  .hero-art button:hover{background:rgba(255,255,255,.22);transform:translateY(-4px)}
+  .hero-art .ph{height:110px;border-radius:14px}
+  .hero-art .ph img{animation:kb 12s ease-in-out infinite alternate}
+  @keyframes kb{to{transform:scale(1.15)}}
+  .hero-art b{display:block;margin:9px 4px 0;font-size:15px}
+  .hero-art small{display:block;margin:0 4px 4px;opacity:.85;font-size:12.5px}
+  .svc-card{margin-top:-70px;padding:22px}
+  .tw-wrap{grid-template-columns:560px 1fr;gap:28px}
+  .tw-side{display:block;position:relative;border-radius:26px;overflow:hidden;height:100%;min-height:520px;color:#fff}
+  .tw-side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s}
+  .tw-side img.on{opacity:1;animation:kb 9s ease-out forwards}
+  .tw-side::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.7))}
+  .tw-side .tx{position:absolute;left:24px;right:24px;bottom:24px;z-index:1}
+  .tw-side .tx b{font-size:26px;letter-spacing:-.6px;display:block;line-height:1.15}
+  .tw-side .tx span{opacity:.9;font-size:14px}
+  .svc .ph{width:84px;height:84px;border-radius:22px}
+  .svc .t{font-size:14px}
+  .promo{flex:0 0 calc(33.333% - 7px);height:178px}
+  .pdots{display:none}
+  .hh h2{font-size:26px}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;margin:0 -8px;padding:4px 0 10px;gap:8px}
+  .sheet{left:50%;right:auto;bottom:auto;top:50%;width:520px;border-radius:22px;transform:translate(-50%,-46%) scale(.96);opacity:0;pointer-events:none;transition:transform .3s var(--ease),opacity .25s,visibility 0s .3s;max-height:90vh}
+  .sheet.show{transform:translate(-50%,-50%);opacity:1;pointer-events:auto;transition:transform .3s var(--ease),opacity .25s,visibility 0s}
+  .sheet .grab{display:none}
+  #pkgSheet{width:880px}
+  #pkgSheet .bd{display:grid;grid-template-columns:1fr 1fr}
+  #pkgSheet .gal{height:100%;min-height:520px;border-radius:22px 0 0 22px;position:sticky;top:0}
+  #pkgSheet .pg{height:100%}
+  #pkgSheet .pside{overflow-y:auto;max-height:calc(90vh - 80px)}
+  #pkgSheet .bd.form{display:block;padding:18px}
+  #cartSheet{left:auto;right:0;top:0;bottom:0;width:430px;max-height:none;height:100vh;border-radius:22px 0 0 22px;transform:translateX(100%);opacity:1;pointer-events:auto}
+  #cartSheet.show{transform:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.up{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a href="#home" class="logo"><img src="logo.png" alt="Aairis Langkawi Ventures" class="logo-img"><span>Aairis Langkawi<small>Transfers &amp; Tours</small></span></a>
+    <nav class="nav">
+      <a href="javascript:goTransfer('airport')">Airport Transfer</a>
+      <a href="javascript:goTransfer('private')">Private Transfer</a>
+      <a href="javascript:openPkg('mangrove')">Mangrove Tour</a>
+      <a href="javascript:openPkg('atv')">ATV Tour</a>
+    </nav>
+    <div class="top-r">
+      <a class="wa-top" href="https://wa.me/60174669712" target="_blank" rel="noopener">💬 +60 17-466 9712</a>
+      <button class="ib" onclick="openActivity()" aria-label="My bookings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
+      <button class="ib" onclick="openCart()" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="badge cart-n"></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <span class="bub b1"></span><span class="bub b2"></span><span class="bub b3"></span>
+  <div class="wrap">
+    <div>
+      <span class="pin up d1">📍 Langkawi, Kedah · <span id="hello">Hello!</span></span>
+      <h1 class="up d2">Where to next in <em>Langkawi?</em></h1>
+      <p class="up d3">Private airport transfers, island charters, mangrove boat tours and ATV adventures — book & pay in minutes.</p>
+      <button class="search up d4" onclick="goTransfer('airport')"><span class="dot"></span><span>Book an airport pickup…</span><b>From RM60</b></button>
+    </div>
+    <div class="hero-art" id="heroArt"></div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="svc-card"><div class="svc" id="svcGrid"></div></div>
+
+  <div class="ticker"><div class="tr" id="ticker"></div></div>
+
+  <div class="promos" id="promos"></div>
+  <div class="pdots" id="pdots"></div>
+
+  <section class="hs" id="transfer">
+    <div class="hh rv"><div><h2>Book a transfer</h2><p>Fixed price · private vehicle · pick your ride</p></div></div>
+    <div class="tw-wrap">
+      <div class="tw rv" id="tw"></div>
+      <div class="tw-side rv" id="twSide"><div class="tx"><b>Landed in Langkawi?<br>Your driver is waiting.</b><span>Sedan, MPV, vans, Alphard & 44-seater coach</span></div></div>
+    </div>
+  </section>
+
+  <section class="hs" id="packages">
+    <div class="hh rv"><div><h2>Popular in Langkawi</h2><p>Tap a package to see details & choose your option</p></div></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="hs">
+    <div class="hh rv"><div><h2>Explore the island</h2><p>Places our drivers take you every day</p></div></div>
+    <div class="explore rv" id="explore"></div>
+  </section>
+
+  <div class="trust rv">
+    <div><span class="e">🔒</span><b>Private</b><small>No sharing</small></div>
+    <div><span class="e">🧑‍✈️</span><b>Local drivers</b><small>Know the island</small></div>
+    <div><span class="e">👨‍👩‍👧</span><b>1–44 pax</b><small>Any group</small></div>
+    <div><span class="e">⚡</span><b>Pay online</b><small>Email confirmation</small></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <img src="logo.png" alt="Aairis Langkawi Ventures" style="height:52px;width:auto;object-fit:contain">
+        <div>
+          <b style="font-size:16.5px;display:block">Aairis Langkawi Ventures</b>
+          <small style="color:var(--ink2);font-weight:600;font-size:11.5px">No. Pendaftaran: LA0067158-H</small>
+        </div>
+      </div>
+      <p style="margin-top:5px;max-width:420px">Reliable, comfortable and private transfers and tours in Langkawi for individuals, families and groups.</p>
+      <a class="waf" href="https://wa.me/60174669712" target="_blank" rel="noopener">💬 Enquiries: +60 17-466 9712</a>
+    </div>
+    <div><b>Services</b><p style="margin-top:5px;line-height:1.9"><a href="javascript:openPkg('airport')">Airport Transfer</a><br><a href="javascript:openPkg('private')">Private Transfer</a><br><a href="javascript:openPkg('mangrove')">Mangrove Tour</a><br><a href="javascript:openPkg('atv')">ATV Tour</a></p></div>
+    <div><b>Booking & payment</b><p style="margin-top:5px">Book and pay securely on this website. Confirmation is sent to your email. WhatsApp us for any enquiries.</p></div>
+    <small style="opacity:.6">© <span id="yr"></span> Aairis Langkawi Ventures (LA0067158-H) · Prices in RM</small>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/60174669712" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.7.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6.3-.5v-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3zM12 21.8a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.9 9.9 0 1 1 8.3 4.6zm8.4-18.3A11.8 11.8 0 0 0 1.8 17.7L.1 24l6.4-1.7a11.8 11.8 0 0 0 5.6 1.4A11.9 11.9 0 0 0 20.4 3.5z"/></svg></a>
+
+<button class="cartbar" id="cartbar" onclick="openCart()"><span><span id="cbN">0 item</span><small>View cart & pay</small></span><span id="cbT">RM0</span></button>
+
+<nav class="bnav">
+  <a href="#home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</a>
+  <a href="#packages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Packages</a>
+  <button onclick="openActivity()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>Activity</button>
+  <button onclick="openCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Cart<span class="badge cart-n"></span></button>
+</nav>
+
+<div class="ov" id="ov" onclick="closeAll()"></div>
+<div class="sheet" id="pkgSheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="bd" id="pkgBody"></div><div class="fo" id="pkgFoot"></div></div>
+<div class="sheet" id="cartSheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="hd"><h3>Your cart</h3><button class="x" onclick="closeAll()">✕</button></div><div class="bd" id="cartBody"></div><div class="fo" id="cartFoot"></div></div>
+<div class="sheet" id="doneSheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="hd"><h3 id="doneTitle">Payment</h3><button class="x" onclick="closeAll()">✕</button></div><div class="bd" id="doneBody"></div></div>
+<div class="sheet" id="vehSheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="hd"><h3 id="vehTitle">Choose vehicle</h3><button class="x" onclick="closeAll()">✕</button></div><div class="bd" id="vehBody"></div></div>
+<div class="sheet" id="actSheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="hd"><h3>My bookings</h3><button class="x" onclick="closeAll()">✕</button></div><div class="bd" id="actBody"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================
+   SETTINGS — edit these
+   ===================================================== */
+const CONFIG = {
+  whatsapp: '60174669712',
+  // Hero background video (optional): paste a direct .mp4 link of your own Langkawi
+  // video (e.g. uploaded to your hosting / Cloudinary). Empty = animated photo slideshow.
+  heroVideo: '',
+  // Online payment (FPX / card) page from ToyyibPay / Billplz / SenangPay / Stripe.
+  // Empty = option hidden.
+  paymentLink: '',
+  // DuitNow / bank QR image link for payment (customer types amount themselves)
+  duitnowQR: '',
+  bankInfo: '', // optional, e.g. 'Maybank 1234 5678 9012 (Aairis Langkawi Venture)'
+  // ---- Where bookings are sent ----
+  // Free key from https://web3forms.com (enter your email, they email you the key).
+  // Every paid booking is emailed to you with full details.
+  web3formsKey: '',
+  ownerEmail: '' // your business email (shown to customers as backup contact)
+};
+
+/* ---------- photos (Unsplash) ---------- */
+const U=(id,w=800)=>`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`;
+const IMG={
+  hero:'1647878872662-50d50c74d40e', island:'1715178724773-a243cfbc2e9e', cable:'1622665645573-b0b5dea09d98', cable2:'1698348186443-4b4f72668a30',
+  sky:'1669812849320-283db1bf8216', beach:'1591251010190-43c22baa46b0', sunset:'1537181591432-412768324e9c', palms:'1570533459920-076b827c7b69', isle:'1587437043326-7e9f2730725c',
+  plane:'1571086291540-b137111fa1c7', airportCar:'1731755429012-83a172bec732',
+  sedan:'1623869675781-80aa31012a5a', mpv:'1675311183084-755007dbb223', van10:'1694802180731-1ee2ea37692a',
+  van14:'1549194898-60fd030ecc0f', van18:'1565049186696-93c9418576a6', prem:'1558101847-e017d5e414a4', bus:'1544620347-c4fd4a3d5957',
+  mgShare:'1626703526460-bc2c57e108a7', mgB:'1643276715928-f0210284bea8', mgRiver:'1612103183244-7598b792bb05', eagle:'1583316369024-8a4eb52ec261', mgBoat:'1673777140345-e153a272b1a5',
+  atv1:'1584660042073-f22ae92b1c05', atv2:'1618785721219-ec37485bb647', atv3:'1675428604186-a165487f857c', atv4:'1515007507252-fc11563a273e'
+};
+const ph=(id,w,extra='')=>`<div class="ph">${extra}<img src="${U(id,w)}" alt="" loading="lazy" onerror="this.style.display='none'"></div>`;
+
+/* ---------- products (options) ---------- */
+const P = [
+  {id:'at-sedan',cat:'airport',img:IMG.sedan,name:'Sedan',sub:'Toyota Vios / Nissan Almera',cap:'1–3 pax',bag:'2 bags',price:60},
+  {id:'at-mpv',cat:'airport',img:IMG.mpv,name:'MPV',sub:'Toyota Veloz / Toyota Zenix',cap:'4–6 pax',bag:'4 bags',price:80},
+  {id:'at-v10',cat:'airport',img:IMG.van10,name:'Van 10-seater',sub:'Spacious for families',cap:'Up to 10 pax',bag:'8 bags',price:100},
+  {id:'at-v14',cat:'airport',img:IMG.van14,name:'Van 14-seater',sub:'Ideal for groups',cap:'Up to 14 pax',bag:'10 bags',price:150},
+  {id:'at-v18',cat:'airport',img:IMG.van18,name:'Van 18-seater',sub:'Large groups & luggage',cap:'Up to 18 pax',bag:'14 bags',price:200},
+  {id:'at-prem',cat:'airport',img:IMG.prem,name:'Premium ★',sub:'Toyota Vellfire / Alphard',cap:'4–6 pax',bag:'4 bags',price:250},
+  {id:'at-bus',cat:'airport',img:IMG.bus,name:'Coach Bus',sub:'Corporate & tour groups',cap:'44-seater',bag:'Big boot',price:400},
+  {id:'pt-sedan',cat:'private',img:IMG.sedan,name:'Sedan',sub:'Toyota Vios / Nissan Almera',cap:'1–3 pax',price:250},
+  {id:'pt-mpv',cat:'private',img:IMG.mpv,name:'MPV',sub:'Toyota Veloz / Toyota Zenix',cap:'4–6 pax',price:300},
+  {id:'pt-v10',cat:'private',img:IMG.van10,name:'Van 10-seater',sub:'Private van & driver',cap:'Up to 10 pax',price:400},
+  {id:'pt-v14',cat:'private',img:IMG.van14,name:'Van 14-seater',sub:'Private van & driver',cap:'Up to 14 pax',price:450},
+  {id:'pt-v18',cat:'private',img:IMG.van18,name:'Van 18-seater',sub:'Private van & driver',cap:'Up to 18 pax',price:550},
+  {id:'pt-prem',cat:'private',img:IMG.prem,name:'Premium ★',sub:'Toyota Vellfire / Alphard',cap:'4–6 pax',price:1000},
+  {id:'pt-bus',cat:'private',img:IMG.bus,name:'Coach Bus',sub:'44-seater coach',cap:'Up to 44 pax',price:1500},
+  {id:'mg-share',cat:'mangrove',kind:'share',img:IMG.mgShare,name:'Sharing Tour (4 hours)',sub:'Check-in 9:30 AM · meal & return pickup',adult:120,child:90,
+   hl:['🦇 Bat Cave','🐟 Fish Farm','🦅 Eagle Watching','🐊 Crocodile Cave','🌊 Andaman Sea','🏝️ Beach stop & swim','🍽️ Meal included','🧑‍✈️ Tour guide','🚐 Return pickup & drop-off']},
+  {id:'mg-b',cat:'mangrove',kind:'private',img:IMG.mgB,name:'Private Boat – Package B',sub:'2 hours · whole boat for your group',price:400,
+   hl:['🦅 Eagle Watching','🛶 River Cruise','🐒 Monkey Feeding','🐊 Crocodile Cave','🦇 Bat Cave','🌊 Andaman Sea','🐟 Fish Farm']},
+  {id:'mg-c',cat:'mangrove',kind:'private',img:IMG.island,name:'Private Boat – Package C',sub:'Whole boat · includes Dangli Island',price:500,
+   hl:['🦅 Eagle Watching','🛶 River Cruise','🐒 Monkey Feeding','🐊 Crocodile Cave','🦇 Bat Cave','🌊 Andaman Sea','🏝️ Dangli Island','🐟 Fish Farm']},
+  {id:'mg-d',cat:'mangrove',kind:'private',img:IMG.beach,name:'Private Boat – Package D',sub:'Whole boat · Story Cave & snorkelling',price:600,
+   hl:['🦅 Eagle Watching','🛶 River Cruise','🐒 Monkey Feeding','🐊 Crocodile Cave','🦇 Bat Cave','🌊 Andaman Sea','📖 Story Cave','🤿 Dangli Island snorkelling','🐟 Fish Farm']},
+  {id:'atv',cat:'atv',kind:'atv',img:IMG.atv1,name:'ATV Jungle & Waterfall Ride',sub:'50–70 min · 1 ATV for up to 2 people',price:250,
+   hl:['🌾 Scenic paddy fields','🌳 Mangrove rainforest','🌴 Rubber tree farm','💦 Hidden waterfall']}
+];
+const byId=id=>P.find(p=>p.id===id);
+
+/* ---------- packages (cards) ---------- */
+const G = {
+  airport:{title:'Langkawi Airport Transfer – Private Car',meta:'Langkawi Airport · One way',sub:'Sedan to 44-seater coach • Meet & greet',
+    badge:'Best seller',left:'🚐 Door to door',imgs:[IMG.airportCar,IMG.plane,IMG.sedan,IMG.prem,IMG.van10],
+    chips:['Private vehicle','Hotel & resort transfers','WhatsApp confirmation'],optLabel:'Choose your vehicle',optNote:'Price per vehicle',
+    hl:['✈️ Airport pickup & drop-off','🔒 Private transportation','🏨 Hotel & resort transfers','👨‍👩‍👧 Vehicles for every group size'],
+    inc:['Private car & driver','Meet at arrival','Luggage space','Advance booking']},
+  private:{title:'Langkawi Private Car Charter with Driver',meta:'Island-wide · 6–8 hours',sub:'Your own driver • Go anywhere you like',
+    badge:'Popular',left:'🗺️ Flexible route',imgs:[IMG.cable,IMG.sky,IMG.isle,IMG.sedan,IMG.van14],
+    chips:['6–8 hours','Hotel pickup','Flexible sightseeing'],optLabel:'Choose your vehicle',optNote:'Price per vehicle, per day',
+    hl:['🚡 SkyCab & Sky Bridge','🏖️ Pantai Cenang','🦅 Eagle Square','🌅 Tanjung Rhu & more — your choice'],
+    inc:['Private vehicle & driver','Hotel pickup & drop-off','Flexible stops','6–8 hours']},
+  mangrove:{title:'Kilim Mangrove Tour – Sharing or Private Boat',meta:'Kilim Geoforest Park · 2–4 hours',sub:'Private option available • Pickup available',
+    badge:'Must do',left:'🦅 Eagle watching',imgs:[IMG.mgShare,IMG.mgB,IMG.eagle,IMG.island,IMG.mgRiver],
+    chips:['UNESCO Geopark','Private boat option','Meal & pickup (sharing)'],optLabel:'Choose your package',optNote:'Sharing = per person · Private = per boat',
+    inc:null},
+  atv:{title:'ATV Jungle Ride to a Hidden Waterfall',meta:'Langkawi · 50–70 min',sub:'Free pickup • Up to 2 riders per ATV',
+    badge:'Adventure',left:'🚐 Free pickup',imgs:[IMG.atv1,IMG.atv2,IMG.atv3,IMG.atv4],
+    chips:['Automatic ATV','Beginner friendly','Free pickup'],optLabel:'Your ride',optNote:'Price per ATV',
+    inc:['Helmet provided','Tour guide','Drinking water','Automatic gear ATV','Free pickup']}
+};
+const fromPrice=g=>Math.min(...P.filter(p=>p.cat===g).map(p=>p.price||p.adult));
+
+const CAT={airport:'Airport Transfer',private:'Private Transfer',mangrove:'Mangrove Tour',atv:'ATV Tour'};
+const RM=n=>'RM'+Number(n).toLocaleString('en-MY');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function load(k,d=[]){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let cart=load('aairis_cart'), orders=load('aairis_orders'), favs=load('aairis_fav');
+const heartSvg='<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>';
+function toggleFav(e,g){e.stopPropagation();e.preventDefault();const i=favs.indexOf(g);i<0?favs.push(g):favs.splice(i,1);store('aairis_fav',favs);document.querySelectorAll(`.heart[data-g="${g}"]`).forEach(h=>h.classList.toggle('on',favs.includes(g)));toast(favs.includes(g)?'♥ Saved to wishlist':'Removed from wishlist')}
+
+/* ---------- HERO tiles + animated side slideshow / video ---------- */
+function initHero(){
+  document.getElementById('heroArt').innerHTML=[['airport','Airport Transfer','Meet & greet, door to door',IMG.plane],['private','Private Transfer','Your own driver, 6–8 hours',IMG.cable],['mangrove','Mangrove Tour','Kilim Geoforest Park',IMG.mgB],['atv','ATV Tour','Jungle, paddy & waterfall',IMG.atv2]]
+    .map(s=>`<button onclick="${s[0]==='airport'||s[0]==='private'?`goTransfer('${s[0]}')`:`openPkg('${s[0]}')`}">${ph(s[3],500)}<b>${s[1]}</b><small>${s[2]}</small></button>`).join('');
+  const box=document.getElementById('twSide');
+  if(CONFIG.heroVideo){box.insertAdjacentHTML('afterbegin',`<video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" poster="${U(IMG.airportCar,1200)}"><source src="${esc(CONFIG.heroVideo)}" type="video/mp4"></video>`);return}
+  const list=[IMG.airportCar,IMG.cable2,IMG.sky,IMG.island,IMG.van10];
+  box.insertAdjacentHTML('afterbegin',list.map((id,i)=>`<img src="${U(id,1200)}" alt="" loading="lazy" class="${i?'':'on'}" onerror="this.remove()">`).join(''));
+  let i=0; setInterval(()=>{const imgs=box.querySelectorAll('img');if(imgs.length<2)return;imgs[i%imgs.length].classList.remove('on');i=(i+1)%imgs.length;const n=imgs[i];void n.offsetWidth;n.classList.add('on')},5000);
+}
+
+/* ---------- TRANSFER WIDGET (airport / private) ---------- */
+const SEAT={sedan:[3,2],mpv:[6,4],v10:[10,8],v14:[14,10],v18:[18,14],prem:[6,4],bus:[44,30]};
+const seats=p=>SEAT[p.id.split('-')[1]];
+const icoP='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>';
+const icoB='<svg viewBox="0 0 24 24"><rect x="6" y="7" width="12" height="14" rx="2"/><path d="M9 7V4h6v3M9 21v1M15 21v1"/></svg>';
+const icoT='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const tw={mode:'airport',dir:'arr',pax:2,sel:{airport:'at-sedan',private:'pt-sedan'},loc:'',flight:'',date:'',time:'13:00'};
+function goTransfer(m){tw.mode=m;renderTW();document.getElementById('transfer').scrollIntoView({behavior:'smooth',block:'start'})}
+function renderTW(){
+  const m=tw.mode, items=P.filter(p=>p.cat===m), selP=byId(tw.sel[m]);
+  if(!tw.date)tw.date=today();
+  const shown=items.slice(0,3);
+  if(!shown.includes(selP))shown[2]=selP;
+  const airportRow=`<div class="rr ${tw.dir==='arr'?'a':'b'}"><span class="fixed">Langkawi Airport (LGK)</span>${tw.dir==='arr'?`<button class="swap" onclick="swapDir(this)" aria-label="Swap direction"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></button>`:''}</div>`;
+  const hotelRow=`<div class="rr ${tw.dir==='arr'?'b':'a'}"><input id="tw-loc" value="${esc(tw.loc)}" placeholder="Hotel / address in Langkawi" oninput="tw.loc=this.value">${tw.dir==='dep'?`<button class="swap spin" onclick="swapDir(this)" aria-label="Swap direction"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></button>`:''}</div>`;
+  const route=m==='airport'
+    ?(tw.dir==='arr'?airportRow+hotelRow:hotelRow+airportRow)
+    :`<div class="rr a"><input id="tw-loc" value="${esc(tw.loc)}" placeholder="Pickup: hotel / address" oninput="tw.loc=this.value"></div><div class="rr b"><span class="fixed">Langkawi island tour · 6–8 h</span></div>`;
+  document.getElementById('tw').innerHTML=`
+    <div class="seg"><button class="${m==='airport'?'on':''}" onclick="tw.mode='airport';renderTW()">✈️ Airport transfer</button><button class="${m==='private'?'on':''}" onclick="tw.mode='private';renderTW()">🚐 Private (6–8h)</button></div>
+    <div class="route">${route}</div>
+    <div class="trip"><input type="date" id="tw-date" min="${today()}" value="${tw.date}" onchange="tw.date=this.value"> · <span style="font-size:13px">Pickup</span> <input type="time" id="tw-time" value="${tw.time}" onchange="tw.time=this.value"> · <span class="px">${icoP.replace('<svg','<svg width="17" height="17" fill="none" stroke="#6F6F6A" stroke-width="1.8"')}<button onclick="twPax(-1)">−</button><b>${tw.pax}</b><button onclick="twPax(1)">+</button></span></div>
+    ${m==='airport'?`<input class="flt" id="tw-flt" value="${esc(tw.flight)}" placeholder="✈️ Flight number (optional) e.g. AK6302" oninput="tw.flight=this.value">`:''}
+    <hr>
+    <div class="vlist">${shown.map((p,i)=>vcard(p,selP,i)).join('')}</div>
+    ${items.length>3?`<button class="more" onclick="openVeh()">View all ${items.length} vehicles ›</button>`:''}
+    <div class="twfoot"><button class="btn" onclick="twBook()"><span>Book ${selP.name.replace(' ★','')}</span><span>${RM(selP.price)}</span></button></div>
+    <div class="twnote">Fixed price · Private vehicle · ${m==='airport'?'One way':'Per vehicle, per day'}</div>`;
+}
+function vcard(p,selP,i){const [s,b]=seats(p);return `<button class="vc ${p.id===selP.id?'sel':''} ${s<tw.pax?'dim':''}" style="animation-delay:${i*50}ms" onclick="twPick('${p.id}')"><span class="th"><img src="${U(p.img,300)}" alt="" loading="lazy" onerror="this.style.display='none'"></span><span class="m"><b>${p.name}</b><span class="ic"><span>${icoP} ${s}</span>${p.cat==='airport'?`<span>${icoB} ${b}</span>`:`<span>${icoT} 6–8h</span>`}</span></span><span class="pr">${RM(p.price)}</span></button>`}
+function openVeh(){
+  const items=P.filter(p=>p.cat===tw.mode), selP=byId(tw.sel[tw.mode]);
+  document.getElementById('vehTitle').textContent=(tw.mode==='airport'?'Airport transfer':'Private transfer (6–8h)')+' · '+items.length+' vehicles';
+  document.getElementById('vehBody').innerHTML=`<p style="font-size:12.5px;color:var(--ink2);margin-bottom:10px">${tw.pax} passenger${tw.pax>1?'s':''} · fixed price per vehicle</p><div class="vlist">${items.map((p,i)=>vcard(p,selP,i)).join('')}</div>`;
+  show('vehSheet');
+}
+function swapDir(){tw.dir=tw.dir==='arr'?'dep':'arr';renderTW()}
+function twPick(id){const [s]=seats(byId(id));tw.sel[tw.mode]=id;if(s<tw.pax)toast(`This vehicle fits up to ${s} passengers`);renderTW();if(document.getElementById('vehSheet').classList.contains('show'))closeAll()}
+function twPax(d){
+  tw.pax=Math.min(44,Math.max(1,tw.pax+d));
+  const cur=byId(tw.sel[tw.mode]);
+  if(seats(cur)[0]<tw.pax){const fit=P.filter(p=>p.cat===tw.mode&&!p.name.includes('★')).find(p=>seats(p)[0]>=tw.pax);if(fit){tw.sel[tw.mode]=fit.id;toast('Switched to '+fit.name+' for '+tw.pax+' pax')}}
+  renderTW();
+}
+function twBook(){
+  const p=byId(tw.sel[tw.mode]);
+  if(!tw.loc.trim()){toast('Please enter your hotel / address');document.getElementById('tw-loc').focus();return}
+  if(!tw.date){toast('Please choose a date');return}
+  const d=[];
+  if(p.cat==='airport')d.push(tw.dir==='arr'?'Airport → Hotel':'Hotel → Airport');
+  d.push('📅 Date: '+fmtDate(tw.date));
+  d.push('⏰ Pickup time: '+fmtTime(tw.time));
+  d.push('📍 '+(p.cat==='airport'&&tw.dir==='arr'?'Drop-off: ':'Pickup: ')+tw.loc.trim());
+  if(p.cat==='airport'&&tw.flight.trim())d.push('✈️ Flight: '+tw.flight.trim());
+  d.push('👤 Passengers: '+tw.pax);
+  cart.push({k:Date.now()+''+Math.random().toString(36).slice(2,6),id:p.id,name:p.name.replace(' ★',''),cat:p.cat,img:p.img,details:d,total:p.price});
+  store('aairis_cart',cart);updateCart();toast('✓ Added to cart');setTimeout(openCart,500);
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const t=['✈️ Airport pickup every day','🦅 Eagle watching at Kilim','🚡 SkyCab & Sky Bridge trips','🏍️ ATV to a hidden waterfall','🚐 Vans up to 18 seats & 44-seater coach','💳 Pay online · DuitNow QR · FPX'];
+  document.getElementById('ticker').innerHTML=[...t,...t].map(x=>`<span>${x}</span>`).join('');
+  const svc=[['airport','Airport',IMG.plane,''],['private','Private Car',IMG.sedan,''],['mangrove','Mangrove',IMG.mgShare,'HOT'],['atv','ATV',IMG.atv1,'']];
+  document.getElementById('svcGrid').innerHTML=svc.map(s=>`<button onclick="${s[0]==='airport'||s[0]==='private'?`goTransfer('${s[0]}')`:`openPkg('${s[0]}')`}">${s[3]?`<span class="hot">${s[3]}</span>`:''}${ph(s[2],200)}<span class="t">${s[1]}</span></button>`).join('');
+  const promos=[
+    {img:IMG.eagle,k:'Sharing tour',t:'Mangrove tour with meal & return pickup',p:'Adult RM120 →',g:'mangrove',o:'mg-share'},
+    {img:IMG.atv2,k:'Free pickup',t:'ATV ride to a hidden waterfall',p:'RM250 / ATV →',g:'atv',o:'atv'},
+    {img:IMG.plane,k:'Just landed?',t:'Your driver is waiting at arrival',p:'From RM60 →',g:'airport',o:'at-sedan'},
+    {img:IMG.cable,k:'Full day',t:'Own car & driver for 6–8 hours',p:'From RM250 →',g:'private',o:'pt-sedan'}
+  ];
+  const pr=document.getElementById('promos');
+  pr.innerHTML=promos.map(p=>`<button class="promo" onclick="openPkg('${p.g}','${p.o}')"><img src="${U(p.img,900)}" alt="" loading="lazy" onerror="this.style.display='none'"><div class="tx"><div><span class="k">${p.k}</span><h3>${p.t}</h3></div><span class="pill">${p.p}</span></div></button>`).join('');
+  document.getElementById('pdots').innerHTML=promos.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
+  const idx=()=>Math.round(pr.scrollLeft/(pr.firstElementChild.offsetWidth+10));
+  pr.addEventListener('scroll',()=>{const i=idx();document.querySelectorAll('#pdots i').forEach((d,j)=>d.classList.toggle('on',i===j))},{passive:true});
+  let paused=false; pr.addEventListener('touchstart',()=>paused=true,{passive:true}); pr.addEventListener('mouseenter',()=>paused=true); pr.addEventListener('mouseleave',()=>paused=false);
+  setInterval(()=>{if(paused||pr.scrollWidth<=pr.clientWidth+5)return;const w=pr.firstElementChild.offsetWidth+10;pr.scrollLeft=(pr.scrollLeft+w>=pr.scrollWidth-pr.clientWidth+5)?0:pr.scrollLeft+w},4500);
+
+  document.getElementById('cards').innerHTML=Object.entries(G).map(([k,g],i)=>`
+    <button class="pk rv" style="transition-delay:${i*80}ms" onclick="openPkg('${k}')">
+      ${ph(g.imgs[0],700,`<span class="bdg"><i>★</i>${g.badge}</span><span class="heart ${favs.includes(k)?'on':''}" data-g="${k}" onclick="toggleFav(event,'${k}')">${heartSvg}</span>`)}
+      <div class="meta">${g.meta}</div><h3>${g.title}</h3><div class="sub">${g.sub}</div>
+      <div class="bot"><span class="l">${g.left}</span><span class="r">From <b>${RM(fromPrice(k))}</b></span></div>
+    </button>`).join('');
+  document.getElementById('explore').innerHTML=[[IMG.sky,'Sky Bridge'],[IMG.isle,'Island hopping'],[IMG.eagle,'Kilim eagles'],[IMG.beach,'Pantai Cenang'],[IMG.sunset,'Sunset cruise']]
+    .map((e,i)=>`<div class="ph" ${i>2?'data-wide':''}><img src="${U(e[0],i?500:900)}" alt="" loading="lazy" onerror="this.style.display='none'"><span>${e[1]}</span></div>`).join('');
+  if(innerWidth<700) document.querySelectorAll('#explore [data-wide]').forEach(e=>e.remove());
+  const h=new Date().getHours(); document.getElementById('hello').textContent=h<12?'Good morning ☀️':h<18?'Good afternoon 🌴':'Good evening 🌙';
+}
+
+/* ---------- PACKAGE DETAIL POPUP ---------- */
+let gk=null, optSel=null, cur=null, st={}, when={date:'',time:''}, pax={adult:2,child:0,riders:2};
+const atvCount=()=>Math.max(1,Math.ceil(pax.riders/2));
+const paxStr=()=>gk==='atv'?`${pax.riders} rider${pax.riders>1?'s':''} · ${atvCount()} ATV${atvCount()>1?'s':''}`:`${pax.adult} adult${pax.adult!==1?'s':''}${pax.child?` + ${pax.child} child${pax.child>1?'ren':''}`:''}`;
+function pkgTotal(p){return p.kind==='share'?pax.adult*p.adult+pax.child*p.child:p.kind==='atv'?atvCount()*p.price:p.kind==='private'?(st.qty||1)*p.price:p.price}
+function paxChg(k,d){const min=k==='child'?0:(k==='adult'&&byId(optSel).kind!=='share'?1:(k==='riders'?1:0));pax[k]=Math.min(44,Math.max(min,pax[k]+d));if(byId(optSel).kind==='share'&&pax.adult+pax.child<1)pax[k]=1;pickOpt(optSel)}
+function pstep(k,l,s,min){return `<div class="qty"><div><b>${l}</b><small>${s}</small></div><div class="step"><button type="button" onclick="paxChg('${k}',-1)" ${pax[k]<=min?'disabled':''}>−</button><span>${pax[k]}</span><button type="button" onclick="paxChg('${k}',1)">+</button></div></div>`}
+function openPkg(k,opt){if(gk!==k||!when.date){when={date:today(),time:k==='mangrove'?'08:30':'09:00'};pax={adult:2,child:0,riders:2}}gk=k;optSel=opt||P.find(p=>p.cat===k).id;renderPkg();if(!document.getElementById('pkgSheet').classList.contains('show'))show('pkgSheet')}
+function seatsOf(p){const k=p.id.split('-')[1];return (typeof SEAT!=='undefined'&&SEAT[k])?SEAT[k][0]:0}
+function priceTag(p){return p.kind==='share'?`${RM(p.adult)}<small> /adult</small>`:`${RM(p.price)}`}
+function renderPkg(){
+  const g=G[gk], opts=P.filter(p=>p.cat===gk), p=byId(optSel);
+  const body=document.getElementById('pkgBody'); body.classList.remove('form'); body.scrollTop=0;
+  const hl=p.hl||g.hl, inc=g.inc;
+  body.innerHTML=`
+   <div class="pg"><div class="gal" id="gal">${g.imgs.map(id=>ph(id,900)).join('')}</div>
+     <div class="gtop"><button class="x" onclick="closeAll()" aria-label="Close">✕</button><span class="heart ${favs.includes(gk)?'on':''}" data-g="${gk}" onclick="toggleFav(event,'${gk}')">${heartSvg}</span></div>
+     <span class="gcount" id="gcount">1/${g.imgs.length}</span></div>
+   <div class="pside">
+     <div class="pin2"><div class="meta">${g.meta}</div><h2>${g.title}</h2><div class="chips">${g.chips.map((c,i)=>`<span class="chip ${i?'':'g'}">${c}</span>`).join('')}</div></div>
+     <div class="sec" style="margin-top:12px"><h4>When?<small>${p.kind==='share'?'Check-in 9:30 AM at Kilim':'We\'ll pick you up at your hotel'}</small></h4>
+       <div class="row2"><div class="fld" style="margin:0"><label>📅 Date</label><input type="date" id="w-date" min="${today()}" value="${when.date}" onchange="when.date=this.value"></div><div class="fld" style="margin:0"><label>⏰ Pickup time</label><input type="time" id="w-time" value="${when.time}" onchange="when.time=this.value"></div></div></div>
+     <div class="sec"><h4>${gk==='atv'?'How many riders?':'How many people?'}<small>${gk==='atv'?'1 ATV = up to 2 riders':p.kind==='share'?'Adult '+RM(p.adult)+' · Child '+RM(p.child):'Price is per '+(p.kind==='private'?'boat':'vehicle')}</small></h4>
+       ${gk==='atv'?pstep('riders','Riders',`${atvCount()} ATV${atvCount()>1?'s':''} × ${RM(p.price)} = <b style="color:var(--ink)">${RM(atvCount()*p.price)}</b>`,1)
+        :pstep('adult','Adults',p.kind==='share'?RM(p.adult)+' each':'Age 12 and above',p.kind==='share'?0:1)+pstep('child','Children',p.kind==='share'?RM(p.child)+' each':'Below 12',0)}
+       ${p.cap&&seatsOf(p)&&pax.adult+pax.child>seatsOf(p)?`<div class="note" style="margin-top:8px">⚠️ ${p.name} fits up to ${seatsOf(p)} passengers — please choose a bigger vehicle.</div>`:''}
+     </div>
+     <div class="sec"><h4>${g.optLabel}<small>${g.optNote}</small></h4>
+       <div class="opts">${opts.map(o=>`<button class="opt ${o.id===optSel?'sel':''}" onclick="pickOpt('${o.id}')">${ph(o.img,200)}<div class="m"><b>${o.name}</b><small>${o.cap?o.cap+(o.bag?' · '+o.bag:'')+' · '+o.sub:o.sub}</small></div><div class="p">${priceTag(o)}${o.kind==='share'?`<small><br>Child ${RM(o.child)}</small>`:''}</div><span class="rad"></span></button>`).join('')}</div></div>
+     <div class="sec"><h4>${p.hl?'What you\'ll see & do':'Highlights'}${p.hl&&gk==='mangrove'?`<small>${p.name.replace('Private Boat – ','')}</small>`:''}</h4><div class="hl">${hl.map((h,i)=>`<span style="animation-delay:${i*35}ms">${h}</span>`).join('')}</div></div>
+     ${inc?`<div class="sec"><h4>What's included</h4><div class="checks">${inc.map(x=>`<span>${x}</span>`).join('')}</div></div>`:''}
+     <div class="sec"><h4>Good to know</h4><p style="font-size:13px;color:var(--ink2)">Book & pay right here — your confirmation is emailed to you. For questions before booking, WhatsApp us at <b>+60 17-466 9712</b>.</p></div>
+   </div>`;
+  const gal=document.getElementById('gal');
+  gal.addEventListener('scroll',()=>{document.getElementById('gcount').textContent=(Math.round(gal.scrollLeft/gal.clientWidth)+1)+'/'+g.imgs.length},{passive:true});
+  document.getElementById('pkgFoot').innerHTML=`<div class="pfoot"><div class="pr"><small>Total · ${paxStr()}</small><b>${RM(pkgTotal(p))}</b></div><button class="btn c" onclick="toForm()">Continue →</button></div>`;
+}
+function pickOpt(id){
+  optSel=id;const sc=document.querySelector('#pkgSheet .pside')||document.getElementById('pkgBody');const y=sc.scrollTop,y2=document.getElementById('pkgBody').scrollTop;
+  renderPkg();(document.querySelector('#pkgSheet .pside')||{}).scrollTop=y;document.getElementById('pkgBody').scrollTop=y2;
+}
+
+/* step 2: booking form inside the popup */
+const today=()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
+function stepper(k,l,s,min){return `<div class="qty"><div><b>${l}</b><small>${s}</small></div><div class="step"><button type="button" onclick="chg('${k}',-1,${min})" id="m-${k}">−</button><span id="v-${k}">${st[k]}</span><button type="button" onclick="chg('${k}',1,${min})">+</button></div></div>`}
+function toForm(){
+  if(!when.date){toast('Please choose a date');const e=document.getElementById('w-date');if(e)e.focus();return}
+  if(!when.time){toast('Please choose a pickup time');const e=document.getElementById('w-time');if(e)e.focus();return}
+  cur=byId(optSel); const p=cur;
+  if(p.kind==='share'&&pax.adult+pax.child<1){toast('Please add at least 1 person');return}
+  if(p.cap&&seatsOf(p)&&pax.adult+pax.child>seatsOf(p)){toast(`${p.name} fits up to ${seatsOf(p)} passengers`);return}
+  st={qty:1,dir:'arr'};
+  const body=document.getElementById('pkgBody'); body.classList.add('form'); body.scrollTop=0;
+  let h=`<div style="padding:${innerWidth<1000?'14px 16px':'0'}"><div style="display:flex;align-items:center;justify-content:space-between"><button class="backl" onclick="renderPkg()">‹ Back to details</button><button class="x" onclick="closeAll()">✕</button></div>
+   <div class="sum">${ph(p.img,200)}<div><b>${p.name}</b><small>${CAT[p.cat]} · ${p.cap||p.sub}</small></div></div>
+   <div class="note" style="background:var(--bg);display:flex;justify-content:space-between;align-items:center;margin:0 0 14px"><span>📅 <b>${fmtDate(when.date)}</b> · ⏰ <b>${fmtTime(when.time)}</b><br>👤 <b>${paxStr()}</b></span><button class="backl" style="margin:0" onclick="renderPkg()">Change</button></div>`;
+  if(p.cat==='airport') h+=`<div class="fld"><label>Trip</label><div class="seg" id="seg"><button type="button" class="on" data-v="arr">Airport → Hotel</button><button type="button" data-v="dep">Hotel → Airport</button></div></div>`;
+  if(p.cat==='airport') h+=`<div class="fld"><label>Flight number (optional)</label><input id="f-flight" placeholder="e.g. AK6302"></div><div class="fld"><label id="lblLoc">Hotel / drop-off location</label><input id="f-loc" placeholder="Hotel name or address"></div><div class="fld"><label>Luggage (pieces)</label><input type="number" id="f-lug" min="0" value="2"></div>`;
+  else if(p.cat==='private') h+=`<div class="fld"><label>Pickup location</label><input id="f-loc" placeholder="Hotel name or address"></div><div class="fld"><label>Places to visit (optional)</label><textarea id="f-note" rows="2" placeholder="e.g. Cable car, Pantai Cenang, Kilim…"></textarea></div>`;
+  else if(p.kind==='share') h+=`<div class="fld"><label>Hotel pickup location</label><input id="f-loc" placeholder="Hotel name or address"></div>`;
+  else if(p.kind==='private') h+=stepper('qty','Boats',RM(p.price)+' per boat',1);
+  else if(p.kind==='atv') h+=`<div class="fld"><label>Free pickup location</label><input id="f-loc" placeholder="Hotel name or address"></div>`;
+  body.innerHTML=h+'</div>';
+  const seg=document.getElementById('seg');
+  if(seg) seg.onclick=e=>{const b=e.target.closest('button');if(!b)return;st.dir=b.dataset.v;seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('lblLoc').textContent=st.dir==='arr'?'Hotel / drop-off location':'Hotel / pickup location'};
+  document.getElementById('pkgFoot').innerHTML=`<button class="btn" id="bkAdd" onclick="addToCart()"><span>Add to cart</span><span id="bkTotal">RM0</span></button>`;
+  calc();
+}
+function chg(k,d,min){st[k]=Math.max(min,(st[k]||0)+d);document.getElementById('v-'+k).textContent=st[k];calc()}
+function lineTotal(){return pkgTotal(cur)}
+function calc(){const t=lineTotal();document.getElementById('bkTotal').textContent=RM(t);document.getElementById('bkAdd').disabled=t<=0;['adult','child','qty'].forEach(k=>{const m=document.getElementById('m-'+k);if(m)m.disabled=st[k]<=(k==='qty'?1:0)})}
+const val=id=>{const e=document.getElementById(id);return e?e.value.trim():''};
+function addToCart(){
+  const p=cur;
+  const loc=val('f-loc'); if(document.getElementById('f-loc')&&!loc){toast('Please enter your hotel / location');document.getElementById('f-loc').focus();return}
+  const d=[]; if(p.cat==='airport')d.push(st.dir==='arr'?'Airport → Hotel':'Hotel → Airport');
+  d.push('📅 Date: '+fmtDate(when.date));
+  d.push('⏰ Pickup time: '+fmtTime(when.time)+(p.kind==='share'?' (check-in 9:30 AM)':''));
+  if(loc)d.push('📍 '+(p.cat==='airport'&&st.dir==='arr'?'Drop-off: ':'Pickup: ')+loc); if(val('f-flight'))d.push('✈️ Flight: '+val('f-flight'));
+  d.push('👤 Pax: '+paxStr()+(val('f-lug')?' · 🧳 '+val('f-lug')+' luggage':''));
+  if(p.kind==='private')d.push('🛥️ '+st.qty+' boat'+(st.qty>1?'s':''));
+  if(val('f-note'))d.push('📝 Note: '+val('f-note'));
+  const nm=p.name;
+  cart.push({k:Date.now()+''+Math.random().toString(36).slice(2,6),id:p.id,name:nm,cat:p.cat,img:p.img,details:d,total:lineTotal()});
+  store('aairis_cart',cart); updateCart(); closeAll(); toast('✓ Added to cart');
+}
+function fmtDate(s){return new Date(s+'T00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+function fmtTime(t){if(!t)return'';let[h,m]=t.split(':');h=+h;return((h%12)||12)+':'+m+(h<12?' AM':' PM')}
+
+/* ---------- CART ---------- */
+const cartTotal=()=>cart.reduce((a,b)=>a+b.total,0);
+function updateCart(){const n=cart.length;document.querySelectorAll('.cart-n').forEach(b=>{b.textContent=n||'';b.dataset.n=n});document.getElementById('cartbar').classList.toggle('show',n>0);document.getElementById('cbN').textContent=n+' item'+(n>1?'s':'');document.getElementById('cbT').textContent=RM(cartTotal())}
+function openCart(){renderCart();show('cartSheet')}
+function renderCart(){
+  const body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
+  if(!cart.length){body.innerHTML=`<div class="empty"><div class="e">🛒</div><b style="color:var(--ink);font-size:16px">Your cart is empty</b><p style="margin-top:4px">Add a transfer or tour to get started.</p></div>`;foot.innerHTML=`<button class="btn c ghost" onclick="closeAll();document.getElementById('packages').scrollIntoView()">Browse packages</button>`;return}
+  const c=load('aairis_cust',{})||{};
+  body.innerHTML=cart.map(i=>`<div class="ci">${ph(i.img||IMG.hero,160)}<div class="m"><b>${esc(i.name)}</b><small style="color:var(--g-d);font-weight:700">${CAT[i.cat]}</small>${i.details.map(x=>`<small>${esc(x)}</small>`).join('')}</div><div class="r"><b>${RM(i.total)}</b><br><button class="rm" onclick="rm('${i.k}')">Remove</button></div></div>`).join('')
+  +`<div class="totals"><div><span>Subtotal (${cart.length} item${cart.length>1?'s':''})</span><span>${RM(cartTotal())}</span></div><div><span>Booking fee</span><span style="color:var(--g-d);font-weight:700">FREE</span></div><div class="g"><span>Total</span><span>${RM(cartTotal())}</span></div></div>
+   <div class="h4">Your details</div>
+   <div class="fld"><label>Full name</label><input id="c-name" value="${esc(c.name||'')}" placeholder="Name as per booking"></div>
+   <div class="row2"><div class="fld"><label>Phone / WhatsApp</label><input id="c-phone" type="tel" value="${esc(c.phone||'')}" placeholder="+60…"></div><div class="fld"><label>Email *</label><input id="c-email" type="email" required value="${esc(c.email||'')}" placeholder="you@email.com"></div></div>
+   <div class="fld"><label>Notes (optional)</label><textarea id="c-note" rows="2" placeholder="Child seat, special requests…"></textarea></div>
+   <div class="h4">Payment method</div>
+   <div class="pay">
+     ${CONFIG.paymentLink?`<label><input type="radio" name="pm" value="online" checked><span class="pi">💳</span><span><b>Online banking / Card</b><small>FPX, debit & credit card</small></span></label>`:''}
+     <label><input type="radio" name="pm" value="qr" ${CONFIG.paymentLink?'':'checked'}><span class="pi">📱</span><span><b>DuitNow QR</b><small>Scan with any banking or e-wallet app</small></span></label>
+   </div>
+   <p style="font-size:12px;color:var(--ink2);margin-top:10px">Your confirmation will be sent to your email. Questions? <a href="${waLink('Hi, I have a question about booking')}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>`;
+  foot.innerHTML=`<button class="btn" onclick="checkout()"><span>Continue to payment</span><span>${RM(cartTotal())}</span></button>`;
+}
+function rm(k){cart=cart.filter(i=>i.k!==k);store('aairis_cart',cart);updateCart();renderCart()}
+
+/* ---------- CHECKOUT ---------- */
+let pending=null;
+function checkout(){
+  const name=val('c-name'),phone=val('c-phone'),email=val('c-email');
+  if(!name){toast('Please enter your name');document.getElementById('c-name').focus();return}
+  if(phone.replace(/\D/g,'').length<8){toast('Please enter a valid phone number');document.getElementById('c-phone').focus();return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){toast('Please enter a valid email');document.getElementById('c-email').focus();return}
+  const pm=(document.querySelector('input[name=pm]:checked')||{}).value||'qr';
+  store('aairis_cust',{name,phone,email});
+  const id='AL'+Date.now().toString(36).toUpperCase().slice(-6), total=cartTotal();
+  let txt=`NEW BOOKING – ${id}\n\n`;
+  cart.forEach((i,n)=>{txt+=`${n+1}. ${CAT[i.cat]} – ${i.name}\n${i.details.map(x=>'   • '+x).join('\n')}\n   Price: ${RM(i.total)}\n\n`});
+  txt+=`TOTAL: ${RM(total)}\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}${val('c-note')?'\nNotes: '+val('c-note'):''}`;
+  let wa=`*NEW BOOKING – ${id}*\nAairis Langkawi Venture\n`;
+  cart.forEach((i,n)=>{wa+=`\n*${n+1}. ${CAT[i.cat]} – ${i.name}*\n${i.details.join('\n')}\nPrice: ${RM(i.total)}\n`});
+  wa+=`\n*TOTAL: ${RM(total)}*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n✉️ *Email:* ${email}${val('c-note')?'\n📝 *Notes:* '+val('c-note'):''}`;
+  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total})),total,pm,txt,name,email,phone};
+  showPay();
+}
+const waLink=t=>`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
+function payLink(o){const u=CONFIG.paymentLink;if(!u)return'';return u+(u.includes('?')?'&':'?')+'amount='+o.total+'&ref='+o.id}
+
+function showPay(){
+  const o=pending;
+  document.getElementById('doneTitle').textContent='Payment';
+  let h=`<div class="done"><p style="color:var(--ink2);font-size:13px">Booking reference</p><div class="oid">${o.id}</div><p style="color:var(--ink2);font-size:14px">Amount to pay<br><b style="color:var(--ink);font-size:28px;letter-spacing:-.5px">${RM(o.total)}</b></p>`;
+  if(o.pm==='online'){
+    h+=`<a class="btn c" href="${payLink(o)}" target="_blank" rel="noopener" style="margin:14px 0 6px">💳 Pay ${RM(o.total)} now</a><div class="note">Payment opens in a new tab (FPX / card). After paying, come back here and enter your transaction ID below.</div>`;
+  } else {
+    h+=`<div class="qr" id="qrBox"></div><div class="note">Scan with your banking / e-wallet app, enter <b>${RM(o.total)}</b> and use <b>${o.id}</b> as the reference.${CONFIG.bankInfo?`<br>🏦 Or transfer to: ${esc(CONFIG.bankInfo)}`:''}</div>`;
+  }
+  h+=`<div class="fld" style="text-align:left;margin-top:12px"><label>Transaction ID / reference from your bank *</label><input id="p-ref" placeholder="e.g. 2026101412345678"></div>
+     <button class="btn c" id="paidBtn" onclick="submitPaid()">I've paid – continue</button>
+     <p style="font-size:12px;color:var(--ink2);margin-top:10px">We'll verify your payment and email the confirmation to <b>${esc(o.email)}</b>.</p></div>`;
+  document.getElementById('doneBody').innerHTML=h;
+  closeAll(true); show('doneSheet');
+  const box=document.getElementById('qrBox'); if(!box)return;
+  if(CONFIG.duitnowQR) box.innerHTML=`<img src="${esc(CONFIG.duitnowQR)}" alt="DuitNow QR">`;
+  else box.innerHTML='DuitNow QR not set up yet.<br><br>Owner: add it in CONFIG.';
+}
+async function submitPaid(){
+  const o=pending, ref=val('p-ref');
+  if(ref.length<4){toast('Please enter your transaction ID');document.getElementById('p-ref').focus();return}
+  const btn=document.getElementById('paidBtn'); btn.disabled=true; btn.textContent='Submitting…';
+  o.ref=ref; o.status='Payment submitted – verifying';
+  const body=o.txt+`\n\nPayment: ${o.pm==='online'?'Online banking / Card':'DuitNow QR'}\nAmount paid: ${RM(o.total)}\nTransaction ref: ${ref}`;
+  const waMsg=(o.wa+`\n\n💳 *Payment:* ${o.pm==='online'?'Online banking / Card':'DuitNow QR'}\n💰 *Amount paid:* ${RM(o.total)}\n🧾 *Transaction ref:* ${ref}\n\n(Please verify my payment. I'll attach the receipt.)`);
+  const wa=waLink(waMsg);
+  o.waUrl=wa; const mobile=innerWidth<1000; if(mobile) window.open(wa,'_blank');
+  let sent=false;
+  if(CONFIG.web3formsKey){
+    try{const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+      body:JSON.stringify({access_key:CONFIG.web3formsKey,subject:`New paid booking ${o.id} – ${RM(o.total)}`,from_name:'Aairis Langkawi Website',name:o.name,email:o.email,replyto:o.email,message:body})});
+      sent=(await r.json()).success===true}catch(e){sent=false}
+  } else console.warn('CONFIG.web3formsKey is empty — bookings are not being emailed to you.');
+  delete o.txt; delete o.wa; orders.unshift(o); store('aairis_orders',orders);
+  cart=[]; store('aairis_cart',cart); updateCart(); pending=null;
+  document.getElementById('doneTitle').textContent='Booking received';
+  document.getElementById('doneBody').innerHTML=`<div class="done"><div class="ok">✓</div><h3>Thank you, ${esc(o.name.split(' ')[0])}!</h3><div class="oid">${o.id}</div>
+    <p style="color:var(--ink2);font-size:14px"><b style="color:var(--ink)">Last step:</b> send your booking details to us on WhatsApp — ${mobile?'tap the button':'scan this QR with your phone'}. Your confirmation will be emailed to <b>${esc(o.email)}</b>.</p>
+    <div class="qr" id="waQr" style="border:0;${mobile?'display:none':''}"></div>
+    ${sent||!CONFIG.web3formsKey?'':`<div class="note">We couldn't send your booking automatically. Please email your reference <b>${o.id}</b> to ${CONFIG.ownerEmail?`<a href="mailto:${esc(CONFIG.ownerEmail)}?subject=Booking ${o.id}&body=${encodeURIComponent(body)}" style="color:var(--g-d);font-weight:700">${esc(CONFIG.ownerEmail)}</a>`:'us'}.</div>`}
+    <a class="btn c" style="margin-top:10px;background:#25D366" href="${o.waUrl}" target="_blank" rel="noopener">💬 Send booking details via WhatsApp</a>
+    <button class="btn c ghost" style="margin-top:8px" onclick="closeAll()">Done</button>
+    <p style="font-size:12px;color:var(--ink2);margin-top:12px">Questions? <a href="${waLink('Hi, enquiry about booking '+o.id)}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p></div>`;
+  const qb=document.getElementById('waQr');
+  if(qb&&!mobile){if(window.QRCode){new QRCode(qb,{text:waLink(waMsg.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}]\uFE0F?/gu,'').replace(/\n +/g,'\n')),width:220,height:220,correctLevel:QRCode.CorrectLevel.L})}else qb.style.display='none'}
+}
+function openActivity(){
+  document.getElementById('actBody').innerHTML=orders.length?orders.map(o=>`<div class="act"><div class="t"><span>${o.id}</span><span>${RM(o.total)}</span></div><small>${new Date(o.date).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})} · <span class="st">${esc(o.status||'Awaiting confirmation')}</span></small>${o.items.map(i=>`<small style="margin-top:5px">• ${CAT[i.cat]} – ${esc(i.name)} (${RM(i.total)})</small>`).join('')}<a href="${waLink('Hi, I would like to check my booking '+o.id)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-weight:700;color:var(--g-d);font-size:13px">💬 Ask about this booking →</a></div>`).join(''):`<div class="empty"><div class="e">📋</div><b style="color:var(--ink)">No bookings yet</b><p>Your bookings will show here.</p></div>`;
+  show('actSheet');
+}
+
+/* ---------- UI ---------- */
+function show(id){document.getElementById('ov').classList.add('show');document.getElementById(id).classList.add('show');document.body.style.overflow='hidden'}
+function closeAll(keep){document.querySelectorAll('.sheet.show').forEach(s=>s.classList.remove('show'));if(!keep)document.getElementById('ov').classList.remove('show');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1900)}
+addEventListener('scroll',()=>{const b=document.querySelectorAll('.bnav a');const pk=document.getElementById('packages').getBoundingClientRect().top<300;b[0].classList.toggle('on',!pk);b[1].classList.toggle('on',pk)},{passive:true});
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+initHero(); renderHome(); renderTW(); updateCart();
+const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
+document.querySelectorAll('.rv').forEach(el=>io?io.observe(el):el.classList.add('in'));
+</script>
+</body>
+</html>
