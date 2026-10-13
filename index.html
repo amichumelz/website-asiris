@@ -47,27 +47,31 @@ img{display:block}
 .badge[data-n="0"],.badge:empty{display:none}
 .wa-top{display:none;align-items:center;gap:8px;background:var(--g);color:#fff;padding:10px 16px;border-radius:99px;font-weight:700;font-size:13.5px}
 
-/* ---------- hero (green, Grab-style) ---------- */
-.hero{background:linear-gradient(160deg,var(--g) 0%,var(--g-d) 100%);color:#fff;padding:22px 0 70px;position:relative;overflow:hidden}
-.hero .bub{position:absolute;border-radius:50%;background:rgba(255,255,255,.08);animation:float 9s ease-in-out infinite}
-.hero .b1{right:-80px;top:-60px;width:320px;height:320px}
-.hero .b2{left:-60px;bottom:-120px;width:260px;height:260px;animation-delay:-3s;background:rgba(255,255,255,.06)}
-.hero .b3{left:45%;top:20%;width:90px;height:90px;animation-delay:-5s;background:rgba(255,255,255,.07)}
-@keyframes float{50%{transform:translate(14px,-18px) scale(1.05)}}
-.hero .wrap{position:relative;z-index:1}
-.pin{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:99px}
-.hero h1{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:14px 0 6px;font-weight:800}
-.hero h1 em{font-style:normal;color:#C8FFDE}
-.hero p{opacity:.9;font-size:15px;max-width:480px}
+/* ---------- hero (Langkawi slideshow background) ---------- */
+.hero{position:relative;color:#fff;padding:26px 0 76px;overflow:hidden;background:#0d281e;isolation:isolate}
+.hero-slides{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.hero-slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity 1.2s ease,transform 7s ease-out;pointer-events:none}
+.hero-slides img.active{opacity:1;transform:scale(1);z-index:1}
+.hero-overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,22,15,.68) 0%,rgba(5,22,15,.48) 40%,rgba(5,22,15,.82) 100%)}
+.hero .wrap{position:relative;z-index:2}
+.hero-content{max-width:580px}
+.pin{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:6px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.25)}
+.hero h1{font-size:32px;line-height:1.15;letter-spacing:-.8px;margin:16px 0 8px;font-weight:800;text-shadow:0 2px 16px rgba(0,0,0,.35)}
+.hero h1 em{font-style:normal;color:#a8f0c6}
+.hero p{opacity:.95;font-size:15px;max-width:520px;line-height:1.55;text-shadow:0 1px 8px rgba(0,0,0,.3)}
 .up{opacity:0;transform:translateY(18px);animation:up .8s var(--ease) forwards}
 .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}
 @keyframes up{to{opacity:1;transform:none}}
-.search{margin-top:18px;background:#fff;color:var(--ink);border-radius:16px;display:flex;align-items:center;gap:10px;padding:14px 16px;box-shadow:var(--shadow2);max-width:520px;width:100%;text-align:left}
+.search{margin-top:20px;background:#fff;color:var(--ink);border-radius:18px;display:flex;align-items:center;gap:12px;padding:14px 18px;box-shadow:0 18px 45px rgba(0,0,0,.28);max-width:540px;width:100%;text-align:left;transition:transform .2s,box-shadow .2s}
+.search:hover{transform:translateY(-2px);box-shadow:0 24px 50px rgba(0,0,0,.35)}
 .search .dot{width:10px;height:10px;border-radius:50%;background:var(--g);flex:none;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--g-l)}50%{box-shadow:0 0 0 9px rgba(0,177,79,.12)}}
-.search span{flex:1;color:var(--ink2);font-weight:500}
-.search b{font-size:13px;color:var(--g-d);background:var(--g-l);padding:6px 10px;border-radius:99px}
-.hero-art{display:none}
+.search span{flex:1;color:var(--ink2);font-weight:500;font-size:15px}
+.search b{font-size:13.5px;color:var(--g-d);background:var(--g-l);padding:7px 12px;border-radius:99px;font-weight:700}
+.hero-dots{display:flex;align-items:center;gap:8px;margin-top:24px}
+.hero-dot{width:10px;height:10px;border-radius:99px;border:0;background:rgba(255,255,255,.45);cursor:pointer;transition:all .35s var(--ease);padding:0}
+.hero-dot:hover{background:rgba(255,255,255,.8)}
+.hero-dot.active{width:28px;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.6)}
 
 /* ticker */
 .ticker{background:var(--g-ll);color:var(--g-d);overflow:hidden;white-space:nowrap;font-weight:700;font-size:13px;padding:10px 0;border-radius:14px;margin-top:16px}
@@ -328,21 +332,12 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
   .nav,.wa-top{display:flex}
   .bnav,.cartbar{display:none!important}
   .fab{bottom:24px;right:24px}
-  .hero{padding:48px 0 110px}
-  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:30px}
-  .hero h1{font-size:46px}
-  .hero p{font-size:17px}
-  .hero-art{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .hero-art button{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:10px;backdrop-filter:blur(6px);text-align:left;color:#fff;transition:transform .35s var(--ease),background .25s;animation:up .8s var(--ease) both}
-  .hero-art button:nth-child(2){animation-delay:.15s;margin-top:18px}
-  .hero-art button:nth-child(3){animation-delay:.3s}
-  .hero-art button:nth-child(4){animation-delay:.45s;margin-top:18px}
-  .hero-art button:hover{background:rgba(255,255,255,.22);transform:translateY(-4px)}
-  .hero-art .ph{height:110px;border-radius:14px}
-  .hero-art .ph img{animation:kb 12s ease-in-out infinite alternate}
-  @keyframes kb{to{transform:scale(1.15)}}
-  .hero-art b{display:block;margin:9px 4px 0;font-size:15px}
-  .hero-art small{display:block;margin:0 4px 4px;opacity:.85;font-size:12.5px}
+  .hero{padding:72px 0 120px}
+  .hero .wrap{display:block}
+  .hero-content{max-width:720px}
+  .hero h1{font-size:52px;letter-spacing:-1.2px;margin:20px 0 12px}
+  .hero p{font-size:18px;max-width:620px}
+  .search{max-width:560px;margin-top:26px}
   .svc-card{margin-top:-70px;padding:22px}
   .tw-wrap{grid-template-columns:560px 1fr;gap:28px}
   .tw-side{display:block;position:relative;border-radius:26px;overflow:hidden;height:100%;min-height:520px;color:#fff}
@@ -392,17 +387,18 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO (Slideshow background of Langkawi) -->
 <section class="hero" id="home">
-  <span class="bub b1"></span><span class="bub b2"></span><span class="bub b3"></span>
+  <div class="hero-slides" id="heroSlides"></div>
+  <div class="hero-overlay"></div>
   <div class="wrap">
-    <div>
+    <div class="hero-content">
       <span class="pin up d1">📍 Langkawi, Kedah · <span id="hello">Hello!</span></span>
       <h1 class="up d2">Where to next in <em>Langkawi?</em></h1>
-      <p class="up d3">Private airport transfers, island charters, mangrove boat tours and ATV adventures — book & pay in minutes.</p>
+      <p class="up d3">Private airport transfers, island charters, mangrove boat tours and ATV adventures — book &amp; pay in minutes.</p>
       <button class="search up d4" onclick="goTransfer('airport')"><span class="dot"></span><span>Book an airport pickup…</span><b>From RM60</b></button>
+      <div class="hero-dots" id="heroDots"></div>
     </div>
-    <div class="hero-art" id="heroArt"></div>
   </div>
 </section>
 
@@ -574,15 +570,65 @@ let cart=load('aairis_cart'), orders=load('aairis_orders'), favs=load('aairis_fa
 const heartSvg='<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>';
 function toggleFav(e,g){e.stopPropagation();e.preventDefault();const i=favs.indexOf(g);i<0?favs.push(g):favs.splice(i,1);store('aairis_fav',favs);document.querySelectorAll(`.heart[data-g="${g}"]`).forEach(h=>h.classList.toggle('on',favs.includes(g)));toast(favs.includes(g)?'♥ Saved to wishlist':'Removed from wishlist')}
 
-/* ---------- HERO tiles + animated side slideshow / video ---------- */
+/* ---------- HERO Langkawi background slideshow + side preview ---------- */
 function initHero(){
-  document.getElementById('heroArt').innerHTML=[['airport','Airport Transfer','Meet & greet, door to door',IMG.plane],['private','Private Transfer','Your own driver, 6–8 hours',IMG.cable],['mangrove','Mangrove Tour','Kilim Geoforest Park',IMG.mgB],['atv','ATV Tour','Jungle, paddy & waterfall',IMG.atv2]]
-    .map(s=>`<button onclick="${s[0]==='airport'||s[0]==='private'?`goTransfer('${s[0]}')`:`openPkg('${s[0]}')`}">${ph(s[3],500)}<b>${s[1]}</b><small>${s[2]}</small></button>`).join('');
-  const box=document.getElementById('twSide');
-  if(CONFIG.heroVideo){box.insertAdjacentHTML('afterbegin',`<video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" poster="${U(IMG.airportCar,1200)}"><source src="${esc(CONFIG.heroVideo)}" type="video/mp4"></video>`);return}
-  const list=[IMG.airportCar,IMG.cable2,IMG.sky,IMG.island,IMG.van10];
-  box.insertAdjacentHTML('afterbegin',list.map((id,i)=>`<img src="${U(id,1200)}" alt="" loading="lazy" class="${i?'':'on'}" onerror="this.remove()">`).join(''));
-  let i=0; setInterval(()=>{const imgs=box.querySelectorAll('img');if(imgs.length<2)return;imgs[i%imgs.length].classList.remove('on');i=(i+1)%imgs.length;const n=imgs[i];void n.offsetWidth;n.classList.add('on')},5000);
+  const slidesBox = document.getElementById('heroSlides');
+  const dotsBox = document.getElementById('heroDots');
+  if(slidesBox){
+    const langkawiPhotos = [
+      {id: IMG.island, caption: 'Pulau Beras Basah & Dayang Bunting'},
+      {id: IMG.cable,  caption: 'SkyCab Gunung Machinchang'},
+      {id: IMG.sunset, caption: 'Sunset Cruise Selat Melaka'},
+      {id: IMG.isle,   caption: 'Gugusan Pulau Langkawi'},
+      {id: IMG.mgB,    caption: 'Kilim Karst Geoforest Park'},
+      {id: IMG.beach,  caption: 'Pantai Cenang'}
+    ];
+
+    slidesBox.innerHTML = langkawiPhotos.map((p, i) => 
+      `<img src="${U(p.id, 1600)}" alt="${p.caption}" class="${i === 0 ? 'active' : ''}" loading="${i === 0 ? 'eager' : 'lazy'}">`
+    ).join('');
+
+    if(dotsBox){
+      dotsBox.innerHTML = langkawiPhotos.map((_, i) => 
+        `<button type="button" class="hero-dot ${i === 0 ? 'active' : ''}" onclick="setHeroSlide(${i})" aria-label="Slide ${i+1}"></button>`
+      ).join('');
+    }
+
+    window.heroSlideIdx = 0;
+    window.setHeroSlide = function(idx){
+      const imgs = slidesBox.querySelectorAll('img');
+      const dots = dotsBox ? dotsBox.querySelectorAll('.hero-dot') : [];
+      if(!imgs.length) return;
+      window.heroSlideIdx = (idx + imgs.length) % imgs.length;
+      imgs.forEach((img, i) => img.classList.toggle('active', i === window.heroSlideIdx));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === window.heroSlideIdx));
+    };
+
+    if(window.heroTimer) clearInterval(window.heroTimer);
+    window.heroTimer = setInterval(() => {
+      setHeroSlide(window.heroSlideIdx + 1);
+    }, 4500);
+  }
+
+  const box = document.getElementById('twSide');
+  if(box){
+    if(CONFIG.heroVideo){
+      box.insertAdjacentHTML('afterbegin',`<video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" poster="${U(IMG.airportCar,1200)}"><source src="${esc(CONFIG.heroVideo)}" type="video/mp4"></video>`);
+      return;
+    }
+    const list = [IMG.airportCar, IMG.cable2, IMG.sky, IMG.island, IMG.van10];
+    box.insertAdjacentHTML('afterbegin', list.map((id, i) => `<img src="${U(id, 1200)}" alt="" loading="lazy" class="${i ? '' : 'on'}" onerror="this.remove()">`).join(''));
+    let i = 0;
+    setInterval(() => {
+      const imgs = box.querySelectorAll('img');
+      if(imgs.length < 2) return;
+      imgs[i % imgs.length].classList.remove('on');
+      i = (i + 1) % imgs.length;
+      const n = imgs[i];
+      void n.offsetWidth;
+      n.classList.add('on');
+    }, 5000);
+  }
 }
 
 /* ---------- TRANSFER WIDGET (airport / private) ---------- */
