@@ -73,9 +73,11 @@ img{display:block}
 .hero-dot:hover{background:rgba(255,255,255,.8)}
 .hero-dot.active{width:28px;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.6)}
 
-/* ticker */
-.ticker{background:var(--g-ll);color:var(--g-d);overflow:hidden;white-space:nowrap;font-weight:700;font-size:13px;padding:10px 0;border-radius:14px;margin-top:16px}
-.ticker .tr{display:inline-flex;gap:34px;animation:tick 30s linear infinite;padding-left:34px}
+/* ticker (running carousell words edge-to-edge full width) */
+.ticker-bar{background:var(--g-ll);border-top:1px solid rgba(0,177,79,.16);border-bottom:1px solid rgba(0,177,79,.16);color:var(--g-d);overflow:hidden;white-space:nowrap;font-weight:700;font-size:13.5px;padding:12px 0;width:100%;letter-spacing:.2px;display:flex}
+.ticker-bar .tr{display:inline-flex;gap:36px;animation:tick 30s linear infinite;padding-left:36px;white-space:nowrap;flex:none}
+.ticker-bar .tr span{display:inline-flex;align-items:center;gap:12px}
+.ticker-bar .tr span::after{content:"•";color:var(--g);opacity:.5;margin-left:14px}
 @keyframes tick{to{transform:translateX(-50%)}}
 
 /* ---------- transfer widget ---------- */
@@ -119,15 +121,38 @@ img{display:block}
 .twnote{text-align:center;color:#7A7A75;font-size:13px;margin-top:12px}
 .tw-side{display:none}
 
-/* ---------- service grid ---------- */
-.svc-card{background:#fff;border-radius:22px;box-shadow:var(--shadow);margin-top:-48px;position:relative;z-index:2;padding:16px 10px 12px}
-.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.svc button{display:flex;flex-direction:column;align-items:center;gap:7px;padding:4px 2px;border-radius:14px;position:relative}
-.svc .ph{width:62px;height:62px;border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:transform .3s var(--ease)}
-.svc button:hover .ph{transform:translateY(-4px) rotate(-2deg)}
-.svc .t{font-size:12px;font-weight:700;text-align:center;line-height:1.2}
-.svc .hot{position:absolute;top:-5px;right:4px;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;z-index:2;animation:bob 1.8s ease-in-out infinite}
-@keyframes bob{50%{transform:translateY(-3px)}}
+/* ---------- about us section ---------- */
+.about-sec{padding-top:36px}
+.about-grid{display:grid;grid-template-columns:1fr;gap:28px;background:#fff;border:1px solid #E8E8E5;border-radius:24px;padding:clamp(20px,3.5vw,36px);box-shadow:0 12px 36px rgba(18,24,20,.05)}
+.about-badge{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--g-d);background:var(--g-l);padding:4px 10px;border-radius:99px;margin-bottom:10px}
+.about-info h2{font-size:clamp(24px,2.8vw,34px);letter-spacing:-.6px;margin:0 0 14px;line-height:1.2}
+.about-info h2 em{font-style:normal;color:var(--g-d)}
+.about-lead{font-size:15px;line-height:1.6;color:var(--ink);font-weight:600;margin-bottom:10px}
+.about-info p{font-size:14px;line-height:1.65;color:var(--ink2);margin:0 0 18px}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;background:var(--bg);padding:14px 10px;border-radius:16px;text-align:center}
+.about-stats .stat-card b{display:block;font-size:22px;letter-spacing:-.4px;color:var(--g-d);font-weight:800}
+.about-stats .stat-card span{display:block;font-size:11.5px;color:var(--ink2);font-weight:600;margin-top:2px}
+.about-points{display:grid;gap:12px}
+.pt-item{display:flex;align-items:flex-start;gap:12px}
+.pt-check{width:26px;height:26px;border-radius:50%;background:var(--g-l);color:var(--g-d);display:grid;place-items:center;flex:none;margin-top:2px}
+.pt-item b{display:block;font-size:14px;color:var(--ink)}
+.pt-item small{display:block;font-size:12.5px;color:var(--ink2);line-height:1.4;margin-top:2px}
+
+.about-media{display:flex;flex-direction:column;gap:12px}
+.about-photo-card.main{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/10;background:var(--bg)}
+.about-photo-card.main img{width:100%;height:100%;object-fit:cover}
+.about-tag{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:8px 12px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+.about-tag b{display:block;font-size:13px;line-height:1.2}
+.about-tag small{color:var(--ink2);font-size:11px}
+.about-photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.about-photo-sm{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10}
+.about-photo-sm img{width:100%;height:100%;object-fit:cover}
+.about-photo-sm span{position:absolute;left:8px;bottom:8px;z-index:1;color:#fff;font-size:11.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.about-photo-sm::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.6))}
+
+@media (min-width:960px){
+  .about-grid{grid-template-columns:1.15fr .85fr;align-items:center;gap:36px}
+}
 
 /* ---------- promo carousel ---------- */
 .promos{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:18px 0 2px;scrollbar-width:none;scroll-behavior:smooth}
@@ -345,7 +370,6 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
   .hero h1{font-size:52px;letter-spacing:-1.2px;margin:20px 0 12px}
   .hero p{font-size:18px;max-width:620px}
   .search{max-width:560px;margin-top:26px}
-  .svc-card{margin-top:-70px;padding:22px}
   .tw-wrap{grid-template-columns:560px 1fr;gap:28px}
   .tw-side{display:block;position:relative;border-radius:26px;overflow:hidden;height:100%;min-height:520px;color:#fff}
   .tw-side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s}
@@ -385,6 +409,7 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
       <a href="javascript:goTransfer('private')">Private Transfer</a>
       <a href="javascript:openPkg('mangrove')">Mangrove Tour</a>
       <a href="javascript:openPkg('atv')">ATV Tour</a>
+      <a href="#about">About Us</a>
     </nav>
     <div class="top-r">
       <a class="wa-top" href="https://wa.me/60174669712" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +60 17-466 9712</a>
@@ -409,11 +434,12 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
   </div>
 </section>
 
+<!-- TICKER (Running carousell words edge-to-edge / panjang sampai hujung) -->
+<div class="ticker-bar" id="tickerBar">
+  <div class="tr" id="ticker"></div>
+</div>
+
 <main class="wrap">
-  <div class="svc-card"><div class="svc" id="svcGrid"></div></div>
-
-  <div class="ticker"><div class="tr" id="ticker"></div></div>
-
   <div class="promos" id="promos"></div>
   <div class="pdots" id="pdots"></div>
 
@@ -428,6 +454,86 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
   <section class="hs" id="packages">
     <div class="hh rv"><div><h2>Popular in Langkawi</h2><p>Tap a package to see details & choose your option</p></div></div>
     <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- ABOUT US SECTION -->
+  <section class="hs about-sec" id="about">
+    <div class="about-grid rv">
+      <div class="about-info">
+        <span class="about-badge">About Us</span>
+        <h2>Your Trusted Local Travel Partner in <em>Langkawi</em></h2>
+        <p class="about-lead">Aairis Langkawi Ventures (LA0067158-H) is a registered Langkawi-based tour and private transport operator dedicated to delivering seamless, comfortable, and memorable island experiences.</p>
+        <p>From prompt airport pickups to fully customized private charters and UNESCO Kilim Karst mangrove expeditions, we operate our own fleet of pristine vehicles driven by polite, licensed local drivers who know every corner of the island.</p>
+        
+        <div class="about-stats">
+          <div class="stat-card">
+            <b>100%</b>
+            <span>Private Transfers</span>
+          </div>
+          <div class="stat-card">
+            <b>1–44</b>
+            <span>Passenger Capacity</span>
+          </div>
+          <div class="stat-card">
+            <b>24/7</b>
+            <span>WhatsApp Support</span>
+          </div>
+        </div>
+
+        <div class="about-points">
+          <div class="pt-item">
+            <span class="pt-check">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <div>
+              <b>Licensed &amp; Verified Company</b>
+              <small>Registered business entity: LA0067158-H, fully insured and compliant.</small>
+            </div>
+          </div>
+          <div class="pt-item">
+            <span class="pt-check">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <div>
+              <b>Courteous Local Drivers</b>
+              <small>Experienced island drivers who know the shortest routes and best hidden spots.</small>
+            </div>
+          </div>
+          <div class="pt-item">
+            <span class="pt-check">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <div>
+              <b>Pristine, Modern Vehicles</b>
+              <small>Regularly serviced, sanitized, and air-conditioned sedans, MPVs, vans and coaches.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-media">
+        <div class="about-photo-card main">
+          <img src="assets/pkg_charter.jpg" alt="Aairis Langkawi Island Tours" loading="lazy">
+          <div class="about-tag">
+            <img src="logo.png" alt="Aairis" style="height:32px;width:auto">
+            <div>
+              <b>Aairis Langkawi</b>
+              <small>Registered Tour Operator</small>
+            </div>
+          </div>
+        </div>
+        <div class="about-photo-grid">
+          <div class="about-photo-sm">
+            <img src="assets/pkg_airport.jpg" alt="Airport Transfers" loading="lazy">
+            <span>Airport Transfers</span>
+          </div>
+          <div class="about-photo-sm">
+            <img src="assets/pkg_mangrove.jpg" alt="Kilim Mangrove Tours" loading="lazy">
+            <span>Kilim Mangrove</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="hs">
@@ -456,7 +562,7 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
       <p style="margin-top:5px;max-width:420px">Reliable, comfortable and private transfers and tours in Langkawi for individuals, families and groups.</p>
       <a class="waf" href="https://wa.me/60174669712" target="_blank" rel="noopener">WhatsApp: +60 17-466 9712</a>
     </div>
-    <div><b>Services</b><p style="margin-top:5px;line-height:1.9"><a href="javascript:openPkg('airport')">Airport Transfer</a><br><a href="javascript:openPkg('private')">Private Transfer</a><br><a href="javascript:openPkg('mangrove')">Mangrove Tour</a><br><a href="javascript:openPkg('atv')">ATV Tour</a></p></div>
+    <div><b>Services &amp; Company</b><p style="margin-top:5px;line-height:1.9"><a href="javascript:openPkg('airport')">Airport Transfer</a><br><a href="javascript:openPkg('private')">Private Transfer</a><br><a href="javascript:openPkg('mangrove')">Mangrove Tour</a><br><a href="javascript:openPkg('atv')">ATV Tour</a><br><a href="#about">About Us</a></p></div>
     <div><b>Booking & payment</b><p style="margin-top:5px">Book and pay securely on this website. Confirmation is sent to your email. WhatsApp us for any enquiries.</p></div>
     <small style="opacity:.6">© <span id="yr"></span> Aairis Langkawi Ventures (LA0067158-H) · Prices in RM</small>
   </div>
@@ -469,7 +575,7 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
 <nav class="bnav">
   <a href="#home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</a>
   <a href="#packages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Packages</a>
-  <button onclick="openActivity()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>Activity</button>
+  <a href="#about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>About</a>
   <button onclick="openCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Cart<span class="badge cart-n"></span></button>
 </nav>
 
@@ -721,9 +827,7 @@ function twBook(){
 /* ---------- HOME ---------- */
 function renderHome(){
   const t=['Airport pickup every day','Eagle watching at Kilim','SkyCab & Sky Bridge trips','ATV to a hidden waterfall','Vans up to 18 seats & 44-seater coach','Pay online · DuitNow QR · FPX'];
-  document.getElementById('ticker').innerHTML=[...t,...t].map(x=>`<span>${x}</span>`).join('');
-  const svc=[['airport','Airport',IMG.pkgAirport,''],['private','Private Car',IMG.pkgCharter,''],['mangrove','Mangrove',IMG.pkgMangrove,'HOT'],['atv','ATV',IMG.pkgAtv,'']];
-  document.getElementById('svcGrid').innerHTML=svc.map(s=>`<button onclick="${s[0]==='airport'||s[0]==='private'?`goTransfer('${s[0]}')`:`openPkg('${s[0]}')`}">${s[3]?`<span class="hot">${s[3]}</span>`:''}${ph(s[2],200)}<span class="t">${s[1]}</span></button>`).join('');
+  document.getElementById('ticker').innerHTML=[...t,...t,...t].map(x=>`<span>${x}</span>`).join('');
   const promos=[
     {img:IMG.pkgMangrove,k:'Sharing tour',t:'Mangrove tour with meal & return pickup',p:'Adult RM120 →',g:'mangrove',o:'mg-share'},
     {img:IMG.pkgAtv,k:'Free pickup',t:'ATV ride to a hidden waterfall',p:'RM250 / ATV →',g:'atv',o:'atv'},
@@ -941,7 +1045,7 @@ function show(id){document.getElementById('ov').classList.add('show');document.g
 function closeAll(keep){document.querySelectorAll('.sheet.show').forEach(s=>s.classList.remove('show'));if(!keep)document.getElementById('ov').classList.remove('show');document.body.style.overflow=''}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1900)}
-addEventListener('scroll',()=>{const b=document.querySelectorAll('.bnav a');const pk=document.getElementById('packages').getBoundingClientRect().top<300;b[0].classList.toggle('on',!pk);b[1].classList.toggle('on',pk)},{passive:true});
+addEventListener('scroll',()=>{const b=document.querySelectorAll('.bnav a');if(!b.length)return;const ab=document.getElementById('about')&&document.getElementById('about').getBoundingClientRect().top<300;const pk=document.getElementById('packages')&&document.getElementById('packages').getBoundingClientRect().top<300;b.forEach(x=>x.classList.remove('on'));if(ab)b[2].classList.add('on');else if(pk)b[1].classList.add('on');else b[0].classList.add('on')},{passive:true});
 
 document.getElementById('yr').textContent=new Date().getFullYear();
 initHero(); renderHome(); renderTW(); updateCart();
