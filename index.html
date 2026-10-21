@@ -593,20 +593,15 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
    ===================================================== */
 const CONFIG = {
   whatsapp: '60174669712',
-  // Hero background video (optional): paste a direct .mp4 link of your own Langkawi
-  // video (e.g. uploaded to your hosting / Cloudinary). Empty = animated photo slideshow.
   heroVideo: '',
-  // Online payment (FPX / card) page from ToyyibPay / Billplz / SenangPay / Stripe.
-  // Empty = option hidden.
-  paymentLink: '',
-  // DuitNow / bank QR image link for payment (customer types amount themselves)
+  // Leave empty for Cloudflare Pages (automatically uses built-in /api/... functions).
+  // Or put custom Cloudflare Worker URL (e.g. 'https://aairis-stripe-worker.yourname.workers.dev')
+  stripeWorkerUrl: '',
+  // DuitNow / bank QR image link for manual payment
   duitnowQR: '',
   bankInfo: '', // optional, e.g. 'Maybank 1234 5678 9012 (Aairis Langkawi Venture)'
-  // ---- Where bookings are sent ----
-  // Free key from https://web3forms.com (enter your email, they email you the key).
-  // Every paid booking is emailed to you with full details.
   web3formsKey: '',
-  ownerEmail: '' // your business email (shown to customers as backup contact)
+  ownerEmail: ''
 };
 
 /* ---------- photos (Unsplash + Local Assets) ---------- */
@@ -959,8 +954,8 @@ function renderCart(){
    <div class="fld"><label>Notes (optional)</label><textarea id="c-note" rows="2" placeholder="Child seat, special requests…"></textarea></div>
    <div class="h4">Payment method</div>
    <div class="pay">
-     ${CONFIG.paymentLink?`<label><input type="radio" name="pm" value="online" checked><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><span><b>Online banking / Card</b><small>FPX, debit & credit card</small></span></label>`:''}
-     <label><input type="radio" name="pm" value="qr" ${CONFIG.paymentLink?'':'checked'}><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span><b>DuitNow QR</b><small>Scan with any banking or e-wallet app</small></span></label>
+     <label><input type="radio" name="pm" value="stripe" checked><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><span><b>Online banking / Card (Stripe)</b><small>FPX, Visa, Mastercard, Apple Pay, Google Pay</small></span></label>
+     <label><input type="radio" name="pm" value="qr"><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span><b>DuitNow QR</b><small>Scan with any banking or e-wallet app</small></span></label>
    </div>
    <p style="font-size:12px;color:var(--ink2);margin-top:10px">Your confirmation will be sent to your email. Questions? <a href="${waLink('Hi, I have a question about booking')}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>`;
   foot.innerHTML=`<button class="btn" onclick="checkout()"><span>Continue to payment</span><span>${RM(cartTotal())}</span></button>`;
@@ -974,7 +969,7 @@ function checkout(){
   if(!name){toast('Please enter your name');document.getElementById('c-name').focus();return}
   if(phone.replace(/\D/g,'').length<8){toast('Please enter a valid phone number');document.getElementById('c-phone').focus();return}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){toast('Please enter a valid email');document.getElementById('c-email').focus();return}
-  const pm=(document.querySelector('input[name=pm]:checked')||{}).value||'qr';
+  const pm=(document.querySelector('input[name=pm]:checked')||{}).value||'stripe';
   store('aairis_cust',{name,phone,email});
   const id='AL'+Date.now().toString(36).toUpperCase().slice(-6), total=cartTotal();
   let txt=`NEW BOOKING – ${id}\n\n`;
@@ -983,11 +978,54 @@ function checkout(){
   let wa=`*NEW BOOKING – ${id}*\nAairis Langkawi Venture\n`;
   cart.forEach((i,n)=>{wa+=`\n*${n+1}. ${CAT[i.cat]} – ${i.name}*\n${i.details.join('\n')}\nPrice: ${RM(i.total)}\n`});
   wa+=`\n*TOTAL: ${RM(total)}*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Email:* ${email}${val('c-note')?'\n*Notes:* '+val('c-note'):''}`;
-  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total})),total,pm,txt,name,email,phone};
-  showPay();
+  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total,details:i.details})),total,pm,txt,name,email,phone};
+  if(pm==='stripe'){
+    checkoutStripe(pending);
+  } else {
+    showPay();
+  }
 }
 const waLink=t=>`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
 function payLink(o){const u=CONFIG.paymentLink;if(!u)return'';return u+(u.includes('?')?'&':'?')+'amount='+o.total+'&ref='+o.id}
+
+async function checkoutStripe(o){
+  const btn=document.querySelector('#cartFoot .btn');
+  if(btn){btn.disabled=true;btn.textContent='Connecting to Stripe…';}
+  toast('Redirecting to Stripe checkout…');
+  const workerBase=(CONFIG.stripeWorkerUrl?CONFIG.stripeWorkerUrl.replace(/\/+$/,''):'');
+  const apiUrl=workerBase+'/api/create-checkout-session';
+  try{
+    const res=await fetch(apiUrl,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        bookingId:o.id,
+        customer:{name:o.name,email:o.email,phone:o.phone},
+        items:cart.map(i=>({
+          name:i.name,
+          details:Array.isArray(i.details)?i.details.join(' · '):(i.details||''),
+          amount:i.total,
+          quantity:1
+        })),
+        total:o.total,
+        returnUrl:window.location.origin+window.location.pathname
+      })
+    });
+    const data=await res.json();
+    if(!res.ok||!data.url){
+      throw new Error(data.error||'Failed to initialize Stripe payment.');
+    }
+    store('aairis_pending_stripe',o);
+    window.location.href=data.url;
+  }catch(err){
+    console.error(err);
+    toast(err.message||'Payment connection error. Please try again.');
+    if(btn){
+      btn.disabled=false;
+      btn.innerHTML=`<span>Continue to payment</span><span>${RM(cartTotal())}</span>`;
+    }
+  }
+}
 
 function showPay(){
   const o=pending;
@@ -1047,8 +1085,124 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1900)}
 addEventListener('scroll',()=>{const b=document.querySelectorAll('.bnav a');if(!b.length)return;const ab=document.getElementById('about')&&document.getElementById('about').getBoundingClientRect().top<300;const pk=document.getElementById('packages')&&document.getElementById('packages').getBoundingClientRect().top<300;b.forEach(x=>x.classList.remove('on'));if(ab)b[2].classList.add('on');else if(pk)b[1].classList.add('on');else b[0].classList.add('on')},{passive:true});
 
+async function checkStripeReturn(){
+  const params=new URLSearchParams(window.location.search);
+  const status=params.get('status');
+  const sessionId=params.get('session_id');
+  const bookingId=params.get('booking');
+  if(!status)return;
+
+  try{
+    const cleanUrl=window.location.origin+window.location.pathname;
+    window.history.replaceState({},document.title,cleanUrl);
+  }catch(e){}
+
+  if(status==='cancelled'){
+    toast('Payment was cancelled. Your items are still saved in cart.');
+    openCart();
+    return;
+  }
+
+  if(status==='success'&&sessionId){
+    let o=load('aairis_pending_stripe',null);
+    if(!o||o.id!==bookingId){
+      o={
+        id:bookingId||('AL'+Date.now().toString(36).toUpperCase().slice(-6)),
+        total:0,
+        name:'Guest',
+        email:'',
+        phone:'',
+        date:new Date().toISOString(),
+        items:[]
+      };
+    }
+
+    toast('Verifying payment with Stripe…');
+    const workerBase=(CONFIG.stripeWorkerUrl?CONFIG.stripeWorkerUrl.replace(/\/+$/,''):'');
+    const apiUrl=workerBase+'/api/verify-session?session_id='+encodeURIComponent(sessionId);
+
+    try{
+      const res=await fetch(apiUrl);
+      const data=await res.json();
+
+      if(data.paid){
+        o.ref=data.transactionRef||sessionId;
+        o.status='Paid via Stripe';
+        if(data.amountTotal)o.total=data.amountTotal;
+        if(data.customerDetails?.email&&!o.email)o.email=data.customerDetails.email;
+        if(data.customerDetails?.name&&!o.name)o.name=data.customerDetails.name;
+
+        orders.unshift(o);
+        store('aairis_orders',orders);
+        cart=[];
+        store('aairis_cart',cart);
+        updateCart();
+        store('aairis_pending_stripe',null);
+
+        if(CONFIG.web3formsKey){
+          const emailBody=`BOOKING CONFIRMATION – PAID VIA STRIPE\n\nBooking ID: ${o.id}\nStatus: Paid (Stripe Ref: ${o.ref})\nAmount: ${RM(o.total)}\nName: ${o.name}\nEmail: ${o.email}\nPhone: ${o.phone}\n\n`
+            +(o.txt||(o.items&&o.items.map((i,n)=>`${n+1}. ${i.name} - ${RM(i.total)}`).join('\n'))||'');
+          try{
+            await fetch('https://api.web3forms.com/submit',{
+              method:'POST',
+              headers:{'Content-Type':'application/json',Accept:'application/json'},
+              body:JSON.stringify({
+                access_key:CONFIG.web3formsKey,
+                subject:`Paid Booking ${o.id} – ${RM(o.total)} (Stripe)`,
+                from_name:'Aairis Langkawi Website',
+                name:o.name,
+                email:o.email,
+                replyto:o.email,
+                message:emailBody
+              })
+            });
+          }catch(e){}
+        }
+
+        showStripeSuccess(o);
+      } else {
+        toast('Payment was not completed. Status: '+(data.status||'unpaid'));
+      }
+    }catch(err){
+      console.error(err);
+      toast('Error verifying payment. Please contact our support.');
+    }
+  }
+}
+
+function showStripeSuccess(o){
+  const mobile=innerWidth<1000;
+  const waMsg=`*PAID BOOKING CONFIRMATION – ${o.id}*\nAairis Langkawi Venture\n\nPayment Status: Paid via Stripe\nStripe Ref: ${o.ref||''}\nTotal Paid: ${RM(o.total)}\nName: ${o.name}\nPhone: ${o.phone}\nEmail: ${o.email}\n\n(My booking is confirmed and paid via Stripe. Thank you!)`;
+  const wa=waLink(waMsg);
+
+  document.getElementById('doneTitle').textContent='Payment successful';
+  document.getElementById('doneBody').innerHTML=`<div class="done">
+    <div class="ok"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3>Payment successful!</h3>
+    <p style="color:var(--ink2);font-size:14px;margin-top:2px">Thank you, <b>${esc(o.name.split(' ')[0])}</b>! Your payment has been received via Stripe.</p>
+    <div class="oid" style="margin:12px auto">${o.id}</div>
+    <p style="color:var(--ink2);font-size:13px">Amount paid: <b style="color:var(--g-d);font-size:16px">${RM(o.total)}</b></p>
+    <div class="note" style="margin-top:12px">A confirmation has been recorded. Tap below to notify our team on WhatsApp for fast arrangement of your driver / boat.</div>
+    <div class="qr" id="stripeWaQr" style="border:0;${mobile?'display:none':''}"></div>
+    <a class="btn c" style="margin-top:10px;background:#25D366" href="${wa}" target="_blank" rel="noopener">Send confirmation via WhatsApp</a>
+    <button class="btn c ghost" style="margin-top:8px" onclick="closeAll()">Done</button>
+    <p style="font-size:12px;color:var(--ink2);margin-top:12px">Questions? <a href="${waLink('Hi, enquiry about booking '+o.id)}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>
+  </div>`;
+  closeAll(true);
+  show('doneSheet');
+  const qb=document.getElementById('stripeWaQr');
+  if(qb&&!mobile&&window.QRCode){
+    new QRCode(qb,{
+      text:waLink(waMsg.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}]\uFE0F?/gu,'').replace(/\n +/g,'\n')),
+      width:220,
+      height:220,
+      correctLevel:QRCode.CorrectLevel.L
+    });
+  }
+}
+
 document.getElementById('yr').textContent=new Date().getFullYear();
-initHero(); renderHome(); renderTW(); updateCart();
+initHero(); renderHome(); renderTW(); updateCart(); checkStripeReturn();
 const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
 document.querySelectorAll('.rv').forEach(el=>io?io.observe(el):el.classList.add('in'));
 </script>

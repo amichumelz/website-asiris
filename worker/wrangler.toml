@@ -1,0 +1,9 @@
+name = "aairis-stripe-worker"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# To set your secret key securely via CLI:
+# npx wrangler secret put STRIPE_SECRET_KEY
+#
+# Or set it in your Cloudflare Dashboard under:
+# Workers & Pages -> aairis-stripe-worker -> Settings -> Variables and Secrets.
