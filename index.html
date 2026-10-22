@@ -443,7 +443,7 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
       <span class="pin up d1">Langkawi, Kedah · <span id="hello">Hello!</span></span>
       <h1 class="up d2">Where to next in <em>Langkawi?</em></h1>
       <p class="up d3">Private airport transfers, island charters, mangrove boat tours and ATV adventures — book &amp; pay in minutes.</p>
-      <button class="search up d4" onclick="goTransfer('airport')"><span class="dot"></span><span>Book an airport pickup…</span><b>From RM60</b></button>
+      <button class="search up d4" onclick="goTransfer('airport')"><span class="dot"></span><span>Book an airport pickup…</span><b>From RM1 (Test)</b></button>
       <div class="hero-dots" id="heroDots"></div>
     </div>
   </div>
@@ -653,7 +653,7 @@ const ph=(id,w,extra='')=>`<div class="ph">${extra}<img src="${U(id,w)}" alt="" 
 
 /* ---------- products (options) ---------- */
 const P = [
-  {id:'at-sedan',cat:'airport',img:IMG.sedan,name:'Sedan',sub:'Toyota Vios / Nissan Almera',cap:'1–3 pax',bag:'2 bags',price:60},
+  {id:'at-sedan',cat:'airport',img:IMG.sedan,name:'Sedan (Test RM1)',sub:'Toyota Vios / Nissan Almera',cap:'1–3 pax',bag:'2 bags',price:1},
   {id:'at-mpv',cat:'airport',img:IMG.mpv,name:'MPV',sub:'Toyota Veloz / Toyota Zenix',cap:'4–6 pax',bag:'4 bags',price:80},
   {id:'at-v10',cat:'airport',img:IMG.van10,name:'Van 10-seater',sub:'Spacious for families',cap:'Up to 10 pax',bag:'8 bags',price:100},
   {id:'at-v14',cat:'airport',img:IMG.van14,name:'Van 14-seater',sub:'Ideal for groups',cap:'Up to 14 pax',bag:'10 bags',price:150},
@@ -834,12 +834,12 @@ function twBook(){
 
 /* ---------- HOME ---------- */
 function renderHome(){
-  const t=['Airport pickup every day','Eagle watching at Kilim','SkyCab & Sky Bridge trips','ATV to a hidden waterfall','Vans up to 18 seats & 44-seater coach','Pay online · DuitNow QR · FPX'];
+  const t=['Airport pickup every day','Eagle watching at Kilim','SkyCab & Sky Bridge trips','ATV to a hidden waterfall','Vans up to 18 seats & 44-seater coach','Pay online · Cards & FPX Banking via Stripe'];
   document.getElementById('ticker').innerHTML=[...t,...t,...t].map(x=>`<span>${x}</span>`).join('');
   const promos=[
     {img:IMG.pkgMangrove,k:'Sharing tour',t:'Mangrove tour with meal & return pickup',p:'Adult RM120 →',g:'mangrove',o:'mg-share'},
     {img:IMG.pkgAtv,k:'Free pickup',t:'ATV ride to a hidden waterfall',p:'RM250 / ATV →',g:'atv',o:'atv'},
-    {img:IMG.pkgAirport,k:'Just landed?',t:'Your driver is waiting at arrival',p:'From RM60 →',g:'airport',o:'at-sedan'},
+    {img:IMG.pkgAirport,k:'Payment Test',t:'Sedan transfer (Test RM1 Payment)',p:'RM1 →',g:'airport',o:'at-sedan'},
     {img:IMG.pkgCharter,k:'Full day',t:'Own car & driver for 6–8 hours',p:'From RM250 →',g:'private',o:'pt-sedan'}
   ];
   const pr=document.getElementById('promos');
