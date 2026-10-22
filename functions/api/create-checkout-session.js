@@ -113,6 +113,10 @@ export async function onRequestPost(context) {
       mode: 'payment',
       client_reference_id: bookingId,
       customer_email: customer?.email || undefined,
+      payment_intent_data: customer?.email ? {
+        receipt_email: customer.email,
+        description: `Aairis Langkawi Booking ${bookingId}`,
+      } : undefined,
       success_url: successUrl,
       cancel_url: cancelUrl,
       automatic_payment_methods: {

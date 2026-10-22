@@ -113,6 +113,10 @@ export default {
           mode: 'payment',
           client_reference_id: bookingId,
           customer_email: customer?.email || undefined,
+          payment_intent_data: customer?.email ? {
+            receipt_email: customer.email,
+            description: `Aairis Langkawi Booking ${bookingId}`,
+          } : undefined,
           success_url: successUrl,
           cancel_url: cancelUrl,
           automatic_payment_methods: {
@@ -242,6 +246,117 @@ export default {
             status: 500,
             headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
           }
+        );
+      }
+    }
+
+    // Route: Send Booking Confirmation Email to Customer and Owner
+    if (url.pathname === '/api/send-confirmation' && request.method === 'POST') {
+      try {
+        const data = await request.json();
+        const { bookingId, customer, items, total, transactionRef, notes, textSummary } = data;
+
+        if (!bookingId || !customer?.email) {
+          return new Response(
+            JSON.stringify({ error: 'Missing bookingId or customer email.' }),
+            { status: 400, headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const ownerEmail = env.OWNER_EMAIL || 'aairisventure@gmail.com';
+        const emailResults = { customer: false, owner: false, provider: null };
+
+        // Method 1: Resend API
+        const resendApiKey = env.RESEND_API_KEY;
+        if (resendApiKey) {
+          const itemsList = (items || []).map((it, idx) => `
+            <div style="border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px;background:#fff">
+              <b style="color:#111827">${idx+1}. ${it.name || 'Service'} - RM${Number(it.total||it.amount||0).toFixed(0)}</b>
+              <p style="color:#6b7280;font-size:13px;margin:4px 0 0">${Array.isArray(it.details)?it.details.join(' · '):(it.details||'')}</p>
+            </div>
+          `).join('');
+
+          const htmlBody = `
+            <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
+              <div style="background:#00B14F;padding:24px;text-align:center;color:#fff">
+                <h1 style="margin:0;font-size:22px">Aairis Langkawi Ventures</h1>
+                <p style="margin:4px 0 0;font-size:13px;opacity:0.9">Booking Confirmation</p>
+              </div>
+              <div style="padding:24px">
+                <p style="font-size:16px">Thank you, <b>${customer.name}</b>! Your booking <b>#${bookingId}</b> has been received and confirmed.</p>
+                <div style="background:#f9fafb;border-radius:12px;padding:14px;margin:16px 0;font-size:14px">
+                  <p style="margin:4px 0"><b>Total Paid:</b> RM${Number(total||0).toFixed(0)} (via Stripe)</p>
+                  <p style="margin:4px 0"><b>Stripe Ref:</b> ${transactionRef || '-'}</p>
+                  <p style="margin:4px 0"><b>Customer Phone:</b> ${customer.phone || '-'}</p>
+                  <p style="margin:4px 0"><b>Customer Email:</b> ${customer.email}</p>
+                </div>
+                <h3>Booked Services</h3>
+                ${itemsList}
+                ${notes ? `<p style="background:#FFFBEB;padding:12px;border-radius:8px"><b>Notes:</b> ${notes}</p>` : ''}
+                <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #eee">
+                  <a href="https://wa.me/60174669712?text=Hi%2C%20enquiry%20about%20booking%20${encodeURIComponent(bookingId)}" style="display:inline-block;background:#25D366;color:#fff;font-weight:700;font-size:14px;padding:12px 20px;border-radius:10px;text-decoration:none">
+                    WhatsApp Operations (+60 17-466 9712)
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const resendRes = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${resendApiKey.trim()}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: env.EMAIL_FROM || 'Aairis Langkawi <onboarding@resend.dev>',
+              to: [customer.email],
+              bcc: [ownerEmail],
+              subject: `Booking Confirmed #${bookingId} – Aairis Langkawi Venture`,
+              html: htmlBody,
+            }),
+          });
+          if (resendRes.ok) {
+            emailResults.customer = true;
+            emailResults.owner = true;
+            emailResults.provider = 'resend';
+          }
+        }
+
+        // Method 2: Web3Forms
+        const web3formsKey = env.WEB3FORMS_KEY || data.web3formsKey;
+        if (web3formsKey) {
+          const summary = textSummary || `NEW PAID BOOKING ${bookingId}\nAmount: RM${total}\nCustomer: ${customer.name}\nPhone: ${customer.phone}\nEmail: ${customer.email}\nStripe Ref: ${transactionRef}`;
+          try {
+            const wRes = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({
+                access_key: web3formsKey,
+                subject: `New Paid Booking ${bookingId} – RM${total} (Stripe)`,
+                from_name: 'Aairis Langkawi Website',
+                name: customer.name,
+                email: customer.email,
+                replyto: customer.email,
+                message: summary,
+              }),
+            });
+            const wData = await wRes.json();
+            if (wData.success) {
+              emailResults.owner = true;
+              if (!emailResults.provider) emailResults.provider = 'web3forms';
+            }
+          } catch (err) {}
+        }
+
+        return new Response(
+          JSON.stringify({ success: true, sent: emailResults }),
+          { status: 200, headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' } }
+        );
+      } catch (err) {
+        return new Response(
+          JSON.stringify({ error: err.message || 'Server error.' }),
+          { status: 500, headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' } }
         );
       }
     }
