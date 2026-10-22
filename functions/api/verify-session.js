@@ -46,6 +46,7 @@ export async function onRequestGet(context) {
       {
         headers: {
           Authorization: `Bearer ${stripeSecretKey.trim()}`,
+          'Stripe-Version': '2023-10-16',
         },
       }
     );

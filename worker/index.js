@@ -131,10 +131,8 @@ export default {
 
         if (paymentMethod === 'fpx') {
           payload.payment_method_types = ['fpx', 'card'];
-        } else if (paymentMethod === 'card') {
-          payload.payment_method_types = ['card'];
         } else {
-          payload.automatic_payment_methods = { enabled: 'true' };
+          payload.payment_method_types = ['card'];
         }
 
         let stripeResponse = await fetch(
@@ -143,6 +141,7 @@ export default {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${stripeSecretKey.trim()}`,
+              'Stripe-Version': '2023-10-16',
               'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: toStripeParams(payload).toString(),
@@ -151,15 +150,16 @@ export default {
 
         let stripeData = await stripeResponse.json();
 
-        if (!stripeResponse.ok && payload.payment_method_types && stripeData.error?.message?.includes('payment_method_types')) {
-          delete payload.payment_method_types;
-          payload.automatic_payment_methods = { enabled: 'true' };
+        // Fallback: If FPX is not activated in the merchant's Stripe Dashboard, retry with card
+        if (!stripeResponse.ok && paymentMethod === 'fpx' && (stripeData.error?.message?.toLowerCase().includes('fpx') || stripeData.error?.message?.includes('payment_method_types'))) {
+          payload.payment_method_types = ['card'];
           stripeResponse = await fetch(
             'https://api.stripe.com/v1/checkout/sessions',
             {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${stripeSecretKey.trim()}`,
+                'Stripe-Version': '2023-10-16',
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
               body: toStripeParams(payload).toString(),
@@ -223,6 +223,7 @@ export default {
           {
             headers: {
               Authorization: `Bearer ${stripeSecretKey.trim()}`,
+              'Stripe-Version': '2023-10-16',
             },
           }
         );
