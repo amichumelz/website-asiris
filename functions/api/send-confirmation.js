@@ -25,12 +25,14 @@ function escapeHtml(str) {
 }
 
 function buildHtmlEmail(data, ownerEmail) {
-  const { bookingId, customer, items, total, transactionRef, notes } = data;
+  const { bookingId, customer, items, total, subtotal, fee, transactionRef, notes } = data;
   const custName = escapeHtml(customer?.name || 'Valued Customer');
   const custPhone = escapeHtml(customer?.phone || '-');
   const custEmail = escapeHtml(customer?.email || '-');
   const ref = escapeHtml(transactionRef || '-');
-  const totalFmt = 'RM' + Number(total || 0).toFixed(0);
+  const subtotalFmt = subtotal ? 'RM' + Number(subtotal).toFixed(2) : null;
+  const feeFmt = fee ? 'RM' + Number(fee).toFixed(2) : null;
+  const totalFmt = 'RM' + Number(total || 0).toFixed(2);
 
   const itemsHtml = (items || [])
     .map((item, idx) => {
@@ -92,9 +94,19 @@ function buildHtmlEmail(data, ownerEmail) {
                 <td style="padding:4px 0;color:#6b7280">Stripe Ref:</td>
                 <td style="padding:4px 0;text-align:right;font-weight:600;color:#111827">${ref}</td>
               </tr>
+              ${subtotalFmt ? `
               <tr>
-                <td style="padding:4px 0;color:#6b7280;font-size:15px;font-weight:700">Total Paid:</td>
-                <td style="padding:4px 0;text-align:right;font-size:17px;font-weight:800;color:#00873C">${totalFmt}</td>
+                <td style="padding:4px 0;color:#6b7280">Subtotal:</td>
+                <td style="padding:4px 0;text-align:right;font-weight:600;color:#111827">${subtotalFmt}</td>
+              </tr>
+              <tr>
+                <td style="padding:4px 0;color:#6b7280">Gateway Fee &amp; Tax:</td>
+                <td style="padding:4px 0;text-align:right;font-weight:600;color:#111827">${feeFmt}</td>
+              </tr>
+              ` : ''}
+              <tr>
+                <td style="padding:6px 0 4px;color:#6b7280;font-size:15px;font-weight:700;border-top:1px solid #e5e7eb">Total Paid:</td>
+                <td style="padding:6px 0 4px;text-align:right;font-size:17px;font-weight:800;color:#00873C;border-top:1px solid #e5e7eb">${totalFmt}</td>
               </tr>
             </table>
           </div>
@@ -135,7 +147,7 @@ export async function onRequestPost(context) {
 
   try {
     const data = await request.json();
-    const { bookingId, customer, items, total, transactionRef, notes, textSummary } = data;
+    const { bookingId, customer, items, total, subtotal, fee, transactionRef, notes, textSummary } = data;
 
     if (!bookingId || !customer?.email) {
       return new Response(

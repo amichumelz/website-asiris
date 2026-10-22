@@ -59,7 +59,7 @@ export default {
     if (url.pathname === '/api/create-checkout-session' && request.method === 'POST') {
       try {
         const data = await request.json();
-        const { bookingId, customer, items, total, returnUrl, paymentMethod } = data;
+        const { bookingId, customer, items, total, fee, subtotal, returnUrl, paymentMethod } = data;
 
         if (!bookingId || !total) {
           return new Response(
@@ -98,7 +98,7 @@ export default {
             {
               price_data: {
                 currency: 'myr',
-                unit_amount: Math.round(Number(total) * 100),
+                unit_amount: Math.round(Number(subtotal || total) * 100),
                 product_data: {
                   name: `Aairis Langkawi Booking (${bookingId})`,
                   description: 'Private transfer & tour in Langkawi',
@@ -107,6 +107,21 @@ export default {
               quantity: 1,
             },
           ];
+        }
+
+        // Add Stripe Payment Gateway Fee & Tax line item
+        if (fee && Number(fee) > 0) {
+          lineItems.push({
+            price_data: {
+              currency: 'myr',
+              unit_amount: Math.round(Number(fee) * 100),
+              product_data: {
+                name: 'Payment Gateway Fee & Tax (Stripe 3% + RM1)',
+                description: 'Online payment transaction fee & tax',
+              },
+            },
+            quantity: 1,
+          });
         }
 
         const payload = {
@@ -126,6 +141,9 @@ export default {
             customer_phone: customer?.phone || '',
             customer_email: customer?.email || '',
             selected_method: paymentMethod || 'any',
+            subtotal: String(subtotal || ''),
+            fee: String(fee || ''),
+            total: String(total || ''),
           },
         };
 
@@ -276,7 +294,7 @@ export default {
     if (url.pathname === '/api/send-confirmation' && request.method === 'POST') {
       try {
         const data = await request.json();
-        const { bookingId, customer, items, total, transactionRef, notes, textSummary } = data;
+        const { bookingId, customer, items, total, subtotal, fee, transactionRef, notes, textSummary } = data;
 
         if (!bookingId || !customer?.email) {
           return new Response(
@@ -307,7 +325,9 @@ export default {
               <div style="padding:24px">
                 <p style="font-size:16px">Thank you, <b>${customer.name}</b>! Your booking <b>#${bookingId}</b> has been received and confirmed.</p>
                 <div style="background:#f9fafb;border-radius:12px;padding:14px;margin:16px 0;font-size:14px">
-                  <p style="margin:4px 0"><b>Total Paid:</b> RM${Number(total||0).toFixed(0)} (via Stripe)</p>
+                  ${subtotal ? `<p style="margin:4px 0"><b>Subtotal:</b> RM${Number(subtotal).toFixed(2)}</p>` : ''}
+                  ${fee ? `<p style="margin:4px 0"><b>Gateway Fee &amp; Tax:</b> RM${Number(fee).toFixed(2)}</p>` : ''}
+                  <p style="margin:4px 0"><b>Total Paid:</b> RM${Number(total||0).toFixed(2)} (via Stripe)</p>
                   <p style="margin:4px 0"><b>Stripe Ref:</b> ${transactionRef || '-'}</p>
                   <p style="margin:4px 0"><b>Customer Phone:</b> ${customer.phone || '-'}</p>
                   <p style="margin:4px 0"><b>Customer Email:</b> ${customer.email}</p>

@@ -704,7 +704,7 @@ const G = {
 const fromPrice=g=>Math.min(...P.filter(p=>p.cat===g).map(p=>p.price||p.adult));
 
 const CAT={airport:'Airport Transfer',private:'Private Transfer',mangrove:'Mangrove Tour',atv:'ATV Tour'};
-const RM=n=>'RM'+Number(n).toLocaleString('en-MY');
+const RM=n=>{const num=Number(n||0);return 'RM'+(Number.isInteger(num)?num.toLocaleString('en-MY'):num.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2}));};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function load(k,d=[]){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -952,7 +952,10 @@ function fmtDate(s){return new Date(s+'T00:00').toLocaleDateString('en-GB',{week
 function fmtTime(t){if(!t)return'';let[h,m]=t.split(':');h=+h;return((h%12)||12)+':'+m+(h<12?' AM':' PM')}
 
 /* ---------- CART ---------- */
-const cartTotal=()=>cart.reduce((a,b)=>a+b.total,0);
+const cartSubtotal=()=>cart.reduce((a,b)=>a+b.total,0);
+const calcTaxFee=sub=>sub>0?Math.round((sub*0.03+1)*100)/100:0;
+const cartTaxFee=()=>calcTaxFee(cartSubtotal());
+const cartTotal=()=>{const sub=cartSubtotal();return sub>0?Math.round((sub+calcTaxFee(sub))*100)/100:0;};
 function updateCart(){const n=cart.length;document.querySelectorAll('.cart-n').forEach(b=>{b.textContent=n||'';b.dataset.n=n});document.getElementById('cartbar').classList.toggle('show',n>0);document.getElementById('cbN').textContent=n+' item'+(n>1?'s':'');document.getElementById('cbT').textContent=RM(cartTotal())}
 function openCart(){renderCart();show('cartSheet')}
 let currentPayMethod='card';
@@ -975,8 +978,9 @@ function renderCart(){
   const body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
   if(!cart.length){body.innerHTML=`<div class="empty"><div class="e"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--soft)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><b style="color:var(--ink);font-size:16px">Your cart is empty</b><p style="margin-top:4px">Add a transfer or tour to get started.</p></div>`;foot.innerHTML=`<button class="btn c ghost" onclick="closeAll();document.getElementById('packages').scrollIntoView()">Browse packages</button>`;return}
   const c=load('aairis_cust',{})||{};
+  const sub=cartSubtotal(), fee=cartTaxFee(), tot=cartTotal();
   body.innerHTML=cart.map(i=>`<div class="ci">${ph(i.img||IMG.hero,160)}<div class="m"><b>${esc(i.name)}</b><small style="color:var(--g-d);font-weight:700">${CAT[i.cat]}</small>${i.details.map(x=>`<small>${esc(x)}</small>`).join('')}</div><div class="r"><b>${RM(i.total)}</b><br><button class="rm" onclick="rm('${i.k}')">Remove</button></div></div>`).join('')
-  +`<div class="totals"><div><span>Subtotal (${cart.length} item${cart.length>1?'s':''})</span><span>${RM(cartTotal())}</span></div><div><span>Booking fee</span><span style="color:var(--g-d);font-weight:700">FREE</span></div><div class="g"><span>Total</span><span>${RM(cartTotal())}</span></div></div>
+  +`<div class="totals"><div><span>Subtotal (${cart.length} item${cart.length>1?'s':''})</span><span>${RM(sub)}</span></div><div><span>Booking fee</span><span style="color:var(--g-d);font-weight:700">FREE</span></div><div><span>Payment Gateway Fee &amp; Tax (3% + RM1)</span><span>${RM(fee)}</span></div><div class="g"><span>Total</span><span>${RM(tot)}</span></div></div>
    <div class="h4">Your details</div>
    <div class="fld"><label>Full name <span style="color:var(--red);font-weight:700">*</span></label><input id="c-name" value="${esc(c.name||'')}" placeholder="Name as per IC / Passport" oninput="this.classList.remove('err')"></div>
    <div class="row2"><div class="fld"><label>Phone / WhatsApp <span style="color:var(--red);font-weight:700">*</span></label><input id="c-phone" type="tel" value="${esc(c.phone||'')}" placeholder="+60 12-345 6789" oninput="this.classList.remove('err')"></div><div class="fld"><label>Email address <span style="color:var(--red);font-weight:700">* Required</span></label><input id="c-email" type="email" required value="${esc(c.email||'')}" placeholder="name@example.com" autocomplete="email" oninput="this.classList.remove('err')"></div></div>
@@ -1048,15 +1052,16 @@ function checkout(explicitMethod){
     return;
   }
   store('aairis_cust',{name,phone,email});
-  const id='AL'+Date.now().toString(36).toUpperCase().slice(-6), total=cartTotal();
+  const id='AL'+Date.now().toString(36).toUpperCase().slice(-6);
+  const subtotal=cartSubtotal(), fee=cartTaxFee(), total=cartTotal();
   const methodTitle=m==='card'?'Debit / Credit Card':(m==='apple_pay'?'Apple Pay':'FPX Online Banking');
 
   let txt=`NEW BOOKING – ${id}\n\n`;
   cart.forEach((i,n)=>{txt+=`${n+1}. ${CAT[i.cat]} – ${i.name}\n${(i.details||[]).map(x=>'   • '+x).join('\n')}\n   Price: ${RM(i.total)}\n\n`});
-  txt+=`TOTAL: ${RM(total)}\n\nMethod: ${methodTitle} (Stripe)\nName: ${name}\nPhone: ${phone}\nEmail: ${email}${val('c-note')?'\nNotes: '+val('c-note'):''}`;
+  txt+=`Subtotal: ${RM(subtotal)}\nGateway Fee & Tax (3% + RM1): ${RM(fee)}\nTOTAL: ${RM(total)}\n\nMethod: ${methodTitle} (Stripe)\nName: ${name}\nPhone: ${phone}\nEmail: ${email}${val('c-note')?'\nNotes: '+val('c-note'):''}`;
 
   let wa=`*NEW BOOKING – ${id}*\nAairis Langkawi Venture\n\n`;
-  wa+=`*Payment:* ${methodTitle} (Stripe)\n*Total Paid:* ${RM(total)}\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\n`;
+  wa+=`*Payment:* ${methodTitle} (Stripe)\n*Subtotal:* ${RM(subtotal)}\n*Gateway Fee & Tax (3% + RM1):* ${RM(fee)}\n*Total Paid:* ${RM(total)}\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\n`;
   wa+=`\n*Booked Services:*\n`;
   cart.forEach((i,n)=>{
     wa+=`\n*${n+1}. ${CAT[i.cat]} – ${i.name} (${RM(i.total)})*\n${(i.details||[]).join('\n')}\n`;
@@ -1064,7 +1069,7 @@ function checkout(explicitMethod){
   if(val('c-note')) wa+=`\n*Special Notes:* ${val('c-note')}\n`;
   wa+=`\n(Please proceed with my booking arrangement. Thank you!)`;
 
-  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total,details:i.details})),total,pm:m,methodTitle,txt,name,email,phone,notes:val('c-note')};
+  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total,details:i.details})),subtotal,fee,total,pm:m,methodTitle,txt,name,email,phone,notes:val('c-note')};
   checkoutStripe(pending,m);
 }
 const waLink=t=>`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
@@ -1090,6 +1095,8 @@ async function checkoutStripe(o,pm){
           amount:i.total,
           quantity:1
         })),
+        fee:o.fee,
+        subtotal:o.subtotal,
         total:o.total,
         returnUrl:window.location.origin+window.location.pathname
       })
@@ -1198,6 +1205,8 @@ async function sendBookingEmails(o){
         bookingId:o.id,
         customer:{name:o.name,phone:o.phone,email:o.email},
         items:o.items||[],
+        subtotal:o.subtotal,
+        fee:o.fee,
         total:o.total,
         transactionRef:o.ref,
         notes:o.notes||'',
@@ -1233,7 +1242,9 @@ function showStripeSuccess(o){
   const mobile=innerWidth<1000;
   let wa=o.wa;
   if(!wa){
-    wa=`*PAID BOOKING CONFIRMATION – ${o.id}*\nAairis Langkawi Venture\n\n*Status:* Paid via Stripe\n*Stripe Ref:* ${o.ref||''}\n*Total Paid:* ${RM(o.total)}\n\n*Customer Details:*\nName: ${o.name}\nPhone: ${o.phone}\nEmail: ${o.email}\n`;
+    wa=`*PAID BOOKING CONFIRMATION – ${o.id}*\nAairis Langkawi Venture\n\n*Status:* Paid via Stripe\n*Stripe Ref:* ${o.ref||''}\n`;
+    if(o.subtotal) wa+=`*Subtotal:* ${RM(o.subtotal)}\n*Gateway Fee & Tax (3% + RM1):* ${RM(o.fee)}\n`;
+    wa+=`*Total Paid:* ${RM(o.total)}\n\n*Customer Details:*\nName: ${o.name}\nPhone: ${o.phone}\nEmail: ${o.email}\n`;
     if(o.items&&o.items.length){
       wa+=`\n*Booked Services:*\n`;
       o.items.forEach((i,n)=>{
@@ -1251,7 +1262,11 @@ function showStripeSuccess(o){
     <h3 style="font-size:21px;letter-spacing:-.3px">Payment Successful!</h3>
     <p style="color:var(--ink2);font-size:14px;margin-top:2px">Thank you, <b>${esc(o.name.split(' ')[0])}</b>! Your booking has been received and confirmed.</p>
     <div class="oid" style="margin:12px auto;font-size:14px;font-weight:800;letter-spacing:1px">${o.id}</div>
-    <p style="color:var(--ink2);font-size:13.5px">Total paid: <b style="color:var(--g-d);font-size:17px">${RM(o.total)}</b> via Stripe</p>
+    <div style="background:#f9fafb;border-radius:12px;padding:12px 16px;margin:12px 0;font-size:13px;text-align:left">
+      <div style="display:flex;justify-content:space-between;padding:3px 0;color:var(--ink2)"><span>Subtotal:</span><b>${RM(o.subtotal||(o.total-(o.fee||0)))}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;color:var(--ink2)"><span>Payment Gateway Fee &amp; Tax:</span><b>${RM(o.fee||0)}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0 2px;border-top:1px solid #ECEFF1;font-size:15px;color:var(--ink)"><b>Total Paid:</b><b style="color:var(--g-d);font-size:17px">${RM(o.total)}</b></div>
+    </div>
 
     <div class="note" style="margin:14px 0;background:#EBF9F1;border:1px solid #C4EED0;color:#0E6245">
       <div style="font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:2px">

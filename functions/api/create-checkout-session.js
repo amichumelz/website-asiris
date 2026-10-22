@@ -57,7 +57,7 @@ export async function onRequestPost(context) {
 
   try {
     const data = await request.json();
-    const { bookingId, customer, items, total, returnUrl, paymentMethod } = data;
+    const { bookingId, customer, items, total, fee, subtotal, returnUrl, paymentMethod } = data;
 
     if (!bookingId || !total) {
       return new Response(
@@ -98,7 +98,7 @@ export async function onRequestPost(context) {
         {
           price_data: {
             currency: 'myr',
-            unit_amount: Math.round(Number(total) * 100),
+            unit_amount: Math.round(Number(subtotal || total) * 100),
             product_data: {
               name: `Aairis Langkawi Booking (${bookingId})`,
               description: 'Private transfer & tour in Langkawi',
@@ -107,6 +107,21 @@ export async function onRequestPost(context) {
           quantity: 1,
         },
       ];
+    }
+
+    // Add Stripe Payment Gateway Fee & Tax line item
+    if (fee && Number(fee) > 0) {
+      lineItems.push({
+        price_data: {
+          currency: 'myr',
+          unit_amount: Math.round(Number(fee) * 100),
+          product_data: {
+            name: 'Payment Gateway Fee & Tax (Stripe 3% + RM1)',
+            description: 'Online payment transaction fee & tax',
+          },
+        },
+        quantity: 1,
+      });
     }
 
     const payload = {
@@ -126,6 +141,9 @@ export async function onRequestPost(context) {
         customer_phone: customer?.phone || '',
         customer_email: customer?.email || '',
         selected_method: paymentMethod || 'any',
+        subtotal: String(subtotal || ''),
+        fee: String(fee || ''),
+        total: String(total || ''),
       },
     };
 
