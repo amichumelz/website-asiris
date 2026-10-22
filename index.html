@@ -331,12 +331,24 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
 .totals div{display:flex;justify-content:space-between;padding:3px 0}
 .totals .g{font-weight:800;font-size:17px;border-top:1px dashed #cfd6db;margin-top:6px;padding-top:9px}
 .h4{font-size:14px;font-weight:800;margin:16px 0 10px}
-.pay-card{display:flex;align-items:center;gap:12px;border:1.5px solid var(--g);background:var(--g-ll);border-radius:14px;padding:12px 14px}
-.pay-card .pi{width:40px;height:40px;border-radius:12px;background:#fff;border:1px solid rgba(0,177,79,.25);display:grid;place-items:center;color:var(--g-d);flex:none}
-.pay-card .pm-info{flex:1;min-width:0}
-.pay-card b{display:block;font-size:14px;color:var(--ink)}
-.pay-card small{color:var(--ink2);font-size:12px;display:block;margin-top:2px;line-height:1.35}
-.pay-card .sec-tag{display:flex;align-items:center;gap:4px;color:var(--g-d);font-size:11px;font-weight:700;flex:none}
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 12px}
+.pay-btn{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 10px;cursor:pointer;transition:.2s;text-align:left;display:flex;flex-direction:column;justify-content:space-between;min-height:92px;position:relative}
+.pay-btn:hover{border-color:var(--g);background:var(--g-ll)}
+.pay-btn.on{border-color:var(--g);background:var(--g-ll);box-shadow:0 0 0 1.5px var(--g)}
+.pay-btn .pm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pay-btn .pm-icon{width:32px;height:32px;border-radius:9px;background:var(--bg);display:grid;place-items:center;color:var(--ink);transition:.2s}
+.pay-btn.on .pm-icon{background:#fff;color:var(--g-d);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.pay-btn .pm-badge{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px}
+.pay-btn.on .pm-badge{color:var(--g-d)}
+.pay-btn b{font-size:13px;display:block;color:var(--ink);line-height:1.2}
+.pay-btn small{font-size:11px;color:var(--ink2);display:block;margin-top:2px;line-height:1.2}
+@media (max-width:420px){
+  .pay-grid{grid-template-columns:1fr;gap:7px}
+  .pay-btn{min-height:auto;flex-direction:row;align-items:center;padding:10px 12px}
+  .pay-btn .pm-top{margin-bottom:0;gap:10px}
+  .pay-btn b{font-size:13.5px}
+  .pay-btn small{font-size:11.5px}
+}
 .fld input.err{border-color:var(--red)!important;background:#FFF6F6}
 .btn-wa{background:#25D366;color:#fff;font-weight:800;font-size:15px;padding:14px 18px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;box-shadow:0 6px 18px rgba(37,211,102,.28);transition:transform .15s,box-shadow .2s}
 .btn-wa:hover{background:#20ba5a;box-shadow:0 8px 24px rgba(37,211,102,.38)}
@@ -943,6 +955,22 @@ function fmtTime(t){if(!t)return'';let[h,m]=t.split(':');h=+h;return((h%12)||12)
 const cartTotal=()=>cart.reduce((a,b)=>a+b.total,0);
 function updateCart(){const n=cart.length;document.querySelectorAll('.cart-n').forEach(b=>{b.textContent=n||'';b.dataset.n=n});document.getElementById('cartbar').classList.toggle('show',n>0);document.getElementById('cbN').textContent=n+' item'+(n>1?'s':'');document.getElementById('cbT').textContent=RM(cartTotal())}
 function openCart(){renderCart();show('cartSheet')}
+let currentPayMethod='card';
+const PM_LABELS={
+  card:'Pay with Debit / Credit',
+  apple_pay:'Pay with Apple Pay',
+  fpx:'Pay with FPX Banking'
+};
+function payLabelText(){return PM_LABELS[currentPayMethod]||'Pay now';}
+function setPayMethod(m){
+  currentPayMethod=m;
+  document.querySelectorAll('.pay-btn').forEach(b=>b.classList.remove('on'));
+  const target=document.getElementById(m==='card'?'pm-card':(m==='apple_pay'?'pm-apple':'pm-fpx'));
+  if(target) target.classList.add('on');
+  const lbl=document.getElementById('payBtnLabel');
+  if(lbl) lbl.textContent=payLabelText();
+}
+
 function renderCart(){
   const body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
   if(!cart.length){body.innerHTML=`<div class="empty"><div class="e"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--soft)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><b style="color:var(--ink);font-size:16px">Your cart is empty</b><p style="margin-top:4px">Add a transfer or tour to get started.</p></div>`;foot.innerHTML=`<button class="btn c ghost" onclick="closeAll();document.getElementById('packages').scrollIntoView()">Browse packages</button>`;return}
@@ -954,19 +982,49 @@ function renderCart(){
    <div class="row2"><div class="fld"><label>Phone / WhatsApp <span style="color:var(--red);font-weight:700">*</span></label><input id="c-phone" type="tel" value="${esc(c.phone||'')}" placeholder="+60 12-345 6789" oninput="this.classList.remove('err')"></div><div class="fld"><label>Email address <span style="color:var(--red);font-weight:700">* Required</span></label><input id="c-email" type="email" required value="${esc(c.email||'')}" placeholder="name@example.com" autocomplete="email" oninput="this.classList.remove('err')"></div></div>
    <div class="fld"><label>Notes (optional)</label><textarea id="c-note" rows="2" placeholder="Child seat, special requests…"></textarea></div>
    <div class="h4">Payment method</div>
-   <div class="pay-card">
-     <span class="pi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
-     <div class="pm-info"><b>Online banking &amp; Card (Stripe)</b><small>FPX instant transfer, Visa, Mastercard, Apple Pay, Google Pay</small></div>
-     <div class="sec-tag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>SSL</span></div>
+   <div class="pay-grid">
+     <button type="button" class="pay-btn ${currentPayMethod==='card'?'on':''}" id="pm-card" onclick="setPayMethod('card')">
+       <div class="pm-top">
+         <span class="pm-icon">
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+         </span>
+         <span class="pm-badge">Stripe</span>
+       </div>
+       <b>Debit / Credit</b>
+       <small>Visa &amp; Mastercard</small>
+     </button>
+
+     <button type="button" class="pay-btn ${currentPayMethod==='apple_pay'?'on':''}" id="pm-apple" onclick="setPayMethod('apple_pay')">
+       <div class="pm-top">
+         <span class="pm-icon">
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-.9.04-2.02.6-2.66 1.34-.56.65-1.06 1.71-.93 2.74 1.01.08 2.05-.51 2.67-1.21z"/></svg>
+         </span>
+         <span class="pm-badge">Stripe</span>
+       </div>
+       <b>Apple Pay</b>
+       <small>Apple &amp; Google Pay</small>
+     </button>
+
+     <button type="button" class="pay-btn ${currentPayMethod==='fpx'?'on':''}" id="pm-fpx" onclick="setPayMethod('fpx')">
+       <div class="pm-top">
+         <span class="pm-icon">
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 2L2 7h20L12 2z"/></svg>
+         </span>
+         <span class="pm-badge">Stripe</span>
+       </div>
+       <b>FPX Banking</b>
+       <small>Online Banking</small>
+     </button>
    </div>
-   <p style="font-size:12px;color:var(--ink2);margin-top:10px">Your booking confirmation will be emailed to you immediately. Questions? <a href="${waLink('Hi, I have a question about booking')}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>`;
-  foot.innerHTML=`<button class="btn" onclick="checkout()"><span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Pay now</span></span><span>${RM(cartTotal())}</span></button>`;
+   <p style="font-size:12px;color:var(--ink2);margin-top:10px">Secure checkout powered by Stripe. Confirmation will be emailed immediately. Questions? <a href="${waLink('Hi, I have a question about booking')}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>`;
+  foot.innerHTML=`<button class="btn" id="cartPayBtn" onclick="checkout()"><span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="payBtnLabel">${payLabelText()}</span></span><span>${RM(cartTotal())}</span></button>`;
 }
 function rm(k){cart=cart.filter(i=>i.k!==k);store('aairis_cart',cart);updateCart();renderCart()}
 
 /* ---------- CHECKOUT ---------- */
 let pending=null;
-function checkout(){
+function checkout(explicitMethod){
+  const m=explicitMethod||currentPayMethod||'card';
   const name=val('c-name'),phone=val('c-phone'),email=val('c-email');
   if(!name){
     toast('Please enter your full name');
@@ -991,12 +1049,14 @@ function checkout(){
   }
   store('aairis_cust',{name,phone,email});
   const id='AL'+Date.now().toString(36).toUpperCase().slice(-6), total=cartTotal();
+  const methodTitle=m==='card'?'Debit / Credit Card':(m==='apple_pay'?'Apple Pay':'FPX Online Banking');
+
   let txt=`NEW BOOKING – ${id}\n\n`;
   cart.forEach((i,n)=>{txt+=`${n+1}. ${CAT[i.cat]} – ${i.name}\n${(i.details||[]).map(x=>'   • '+x).join('\n')}\n   Price: ${RM(i.total)}\n\n`});
-  txt+=`TOTAL: ${RM(total)}\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}${val('c-note')?'\nNotes: '+val('c-note'):''}`;
+  txt+=`TOTAL: ${RM(total)}\n\nMethod: ${methodTitle} (Stripe)\nName: ${name}\nPhone: ${phone}\nEmail: ${email}${val('c-note')?'\nNotes: '+val('c-note'):''}`;
 
   let wa=`*NEW BOOKING – ${id}*\nAairis Langkawi Venture\n\n`;
-  wa+=`*Status:* Paid via Stripe\n*Total Paid:* ${RM(total)}\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\n`;
+  wa+=`*Payment:* ${methodTitle} (Stripe)\n*Total Paid:* ${RM(total)}\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\n`;
   wa+=`\n*Booked Services:*\n`;
   cart.forEach((i,n)=>{
     wa+=`\n*${n+1}. ${CAT[i.cat]} – ${i.name} (${RM(i.total)})*\n${(i.details||[]).join('\n')}\n`;
@@ -1004,13 +1064,14 @@ function checkout(){
   if(val('c-note')) wa+=`\n*Special Notes:* ${val('c-note')}\n`;
   wa+=`\n(Please proceed with my booking arrangement. Thank you!)`;
 
-  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total,details:i.details})),total,pm:'stripe',txt,name,email,phone,notes:val('c-note')};
-  checkoutStripe(pending);
+  pending={wa,id,date:new Date().toISOString(),items:cart.map(i=>({name:i.name,cat:i.cat,total:i.total,details:i.details})),total,pm:m,methodTitle,txt,name,email,phone,notes:val('c-note')};
+  checkoutStripe(pending,m);
 }
 const waLink=t=>`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
 
-async function checkoutStripe(o){
-  const btn=document.querySelector('#cartFoot .btn');
+async function checkoutStripe(o,pm){
+  const btn=document.getElementById('cartPayBtn')||document.querySelector('#cartFoot .btn');
+  const method=pm||o.pm||currentPayMethod||'card';
   if(btn){btn.disabled=true;btn.textContent='Connecting to Stripe…';}
   toast('Redirecting to Stripe checkout…');
   const workerBase=(CONFIG.stripeWorkerUrl?CONFIG.stripeWorkerUrl.replace(/\/+$/,''):'');
@@ -1021,6 +1082,7 @@ async function checkoutStripe(o){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         bookingId:o.id,
+        paymentMethod:method,
         customer:{name:o.name,email:o.email,phone:o.phone},
         items:cart.map(i=>({
           name:i.name,
@@ -1043,7 +1105,7 @@ async function checkoutStripe(o){
     toast(err.message||'Payment connection error. Please try again.');
     if(btn){
       btn.disabled=false;
-      btn.innerHTML=`<span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Pay now</span></span><span>${RM(cartTotal())}</span>`;
+      btn.innerHTML=`<span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="payBtnLabel">${payLabelText()}</span></span><span>${RM(cartTotal())}</span>`;
     }
   }
 }

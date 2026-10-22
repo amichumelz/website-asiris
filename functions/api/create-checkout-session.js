@@ -57,7 +57,7 @@ export async function onRequestPost(context) {
 
   try {
     const data = await request.json();
-    const { bookingId, customer, items, total, returnUrl } = data;
+    const { bookingId, customer, items, total, returnUrl, paymentMethod } = data;
 
     if (!bookingId || !total) {
       return new Response(
@@ -119,22 +119,26 @@ export async function onRequestPost(context) {
       } : undefined,
       success_url: successUrl,
       cancel_url: cancelUrl,
-      automatic_payment_methods: {
-        enabled: 'true',
-      },
       line_items: lineItems,
       metadata: {
         booking_id: bookingId,
         customer_name: customer?.name || '',
         customer_phone: customer?.phone || '',
         customer_email: customer?.email || '',
+        selected_method: paymentMethod || 'any',
       },
     };
 
-    const stripeParams = toStripeParams(payload);
+    if (paymentMethod === 'fpx') {
+      payload.payment_method_types = ['fpx', 'card'];
+    } else if (paymentMethod === 'card') {
+      payload.payment_method_types = ['card'];
+    } else {
+      payload.automatic_payment_methods = { enabled: 'true' };
+    }
 
     // Call Stripe Checkout Sessions API
-    const stripeResponse = await fetch(
+    let stripeResponse = await fetch(
       'https://api.stripe.com/v1/checkout/sessions',
       {
         method: 'POST',
@@ -142,11 +146,29 @@ export async function onRequestPost(context) {
           Authorization: `Bearer ${stripeSecretKey.trim()}`,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: stripeParams.toString(),
+        body: toStripeParams(payload).toString(),
       }
     );
 
-    const stripeData = await stripeResponse.json();
+    let stripeData = await stripeResponse.json();
+
+    // Fallback: If payment_method_types fails (e.g. FPX not yet enabled in Stripe dashboard), retry with automatic_payment_methods
+    if (!stripeResponse.ok && payload.payment_method_types && stripeData.error?.message?.includes('payment_method_types')) {
+      delete payload.payment_method_types;
+      payload.automatic_payment_methods = { enabled: 'true' };
+      stripeResponse = await fetch(
+        'https://api.stripe.com/v1/checkout/sessions',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${stripeSecretKey.trim()}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: toStripeParams(payload).toString(),
+        }
+      );
+      stripeData = await stripeResponse.json();
+    }
 
     if (!stripeResponse.ok) {
       return new Response(
