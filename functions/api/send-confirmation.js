@@ -147,7 +147,7 @@ export async function onRequestPost(context) {
 
   try {
     const data = await request.json();
-    const { bookingId, customer, items, total, subtotal, fee, transactionRef, notes, textSummary } = data;
+    const { bookingId, customer, items, total, subtotal, fee, transactionRef, notes, textSummary, ownerEmail: clientOwnerEmail } = data;
 
     if (!bookingId || !customer?.email) {
       return new Response(
@@ -156,7 +156,7 @@ export async function onRequestPost(context) {
       );
     }
 
-    const ownerEmail = env.OWNER_EMAIL || 'aairisventure@gmail.com';
+    const ownerEmail = env.OWNER_EMAIL || clientOwnerEmail || 'muhammadasyrafmusa93@gmail.com';
     const emailResults = { customer: false, owner: false, provider: null };
 
     // Method 1: Resend API (Sends rich HTML email directly to customer AND owner in one request)

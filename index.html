@@ -612,7 +612,7 @@ const CONFIG = {
   // Leave empty for Cloudflare Pages (automatically uses built-in /api/... functions).
   // Or put custom Cloudflare Worker URL (e.g. 'https://aairis-stripe-worker.yourname.workers.dev')
   stripeWorkerUrl: '',
-  ownerEmail: 'aairisventure@gmail.com', // notifications will be sent to this email
+  ownerEmail: 'muhammadasyrafmusa93@gmail.com', // notifications will be sent to this email
   web3formsKey: '', // optional free key from web3forms.com
   resendKey: '', // optional key from resend.com
 };
@@ -1211,6 +1211,7 @@ async function sendBookingEmails(o){
         transactionRef:o.ref,
         notes:o.notes||'',
         textSummary:o.txt,
+        ownerEmail:CONFIG.ownerEmail||'muhammadasyrafmusa93@gmail.com',
         web3formsKey:CONFIG.web3formsKey||''
       })
     });

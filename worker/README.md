@@ -19,7 +19,7 @@ Because your website is hosted on **Cloudflare Pages**, you **do not need a sepa
      - **Value**: Your Stripe secret key (`sk_live_...` or test key `sk_test_...`)
      - **Type**: Select **Secret / Encrypted**.
    - Optional email variables:
-     - **Name**: `OWNER_EMAIL` -> **Value**: `aairisventure@gmail.com`
+     - **Name**: `OWNER_EMAIL` -> **Value**: `muhammadasyrafmusa93@gmail.com`
      - **Name**: `RESEND_API_KEY` -> (optional, from https://resend.com for automated customer & owner HTML emails)
      - **Name**: `WEB3FORMS_KEY` -> (optional, from https://web3forms.com for owner notifications)
    - Click **Save**.
