@@ -307,7 +307,7 @@ export default {
         const emailResults = { customer: false, owner: false, provider: null };
 
         // Method 1: Resend API
-        const resendApiKey = env.RESEND_API_KEY;
+        const resendApiKey = env.RESEND_API_KEY || data.resendKey;
         if (resendApiKey) {
           const invoiceDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
           const subtotalVal = subtotal ? Number(subtotal) : (Number(total) - Number(fee || 0));
@@ -479,19 +479,25 @@ export default {
             </html>
           `;
 
+          const isSameEmail = customer.email.trim().toLowerCase() === ownerEmail.trim().toLowerCase();
+          const emailPayload = {
+            from: env.EMAIL_FROM || 'Aairis Langkawi <booking@aairislangkawiventures.com>',
+            to: [customer.email.trim()],
+            reply_to: ownerEmail,
+            subject: `Tax Invoice & Official Receipt #${bookingId} – Aairis Langkawi Ventures`,
+            html: htmlBody,
+          };
+          if (!isSameEmail) {
+            emailPayload.bcc = [ownerEmail.trim()];
+          }
+
           const resendRes = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${resendApiKey.trim()}`,
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              from: env.EMAIL_FROM || 'Aairis Langkawi <onboarding@resend.dev>',
-              to: [customer.email],
-              bcc: [ownerEmail],
-              subject: `Booking Confirmed #${bookingId} – Aairis Langkawi Venture`,
-              html: htmlBody,
-            }),
+            body: JSON.stringify(emailPayload),
           });
           if (resendRes.ok) {
             emailResults.customer = true;
