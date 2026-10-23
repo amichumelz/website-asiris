@@ -443,7 +443,7 @@ footer a.waf{display:inline-flex;gap:8px;align-items:center;background:var(--g);
       <span class="pin up d1">Langkawi, Kedah · <span id="hello">Hello!</span></span>
       <h1 class="up d2">Where to next in <em>Langkawi?</em></h1>
       <p class="up d3">Private airport transfers, island charters, mangrove boat tours and ATV adventures — book &amp; pay in minutes.</p>
-      <button class="search up d4" onclick="goTransfer('airport')"><span class="dot"></span><span>Book an airport pickup…</span><b>From RM1 (Test)</b></button>
+      <button class="search up d4" onclick="goTransfer('airport')"><span class="dot"></span><span>Book an airport pickup…</span><b>From RM60</b></button>
       <div class="hero-dots" id="heroDots"></div>
     </div>
   </div>
@@ -653,7 +653,7 @@ const ph=(id,w,extra='')=>`<div class="ph">${extra}<img src="${U(id,w)}" alt="" 
 
 /* ---------- products (options) ---------- */
 const P = [
-  {id:'at-sedan',cat:'airport',img:IMG.sedan,name:'Sedan (Test RM1)',sub:'Toyota Vios / Nissan Almera',cap:'1–3 pax',bag:'2 bags',price:1},
+  {id:'at-sedan',cat:'airport',img:IMG.sedan,name:'Sedan',sub:'Toyota Vios / Nissan Almera',cap:'1–3 pax',bag:'2 bags',price:60},
   {id:'at-mpv',cat:'airport',img:IMG.mpv,name:'MPV',sub:'Toyota Veloz / Toyota Zenix',cap:'4–6 pax',bag:'4 bags',price:80},
   {id:'at-v10',cat:'airport',img:IMG.van10,name:'Van 10-seater',sub:'Spacious for families',cap:'Up to 10 pax',bag:'8 bags',price:100},
   {id:'at-v14',cat:'airport',img:IMG.van14,name:'Van 14-seater',sub:'Ideal for groups',cap:'Up to 14 pax',bag:'10 bags',price:150},
@@ -839,7 +839,7 @@ function renderHome(){
   const promos=[
     {img:IMG.pkgMangrove,k:'Sharing tour',t:'Mangrove tour with meal & return pickup',p:'Adult RM120 →',g:'mangrove',o:'mg-share'},
     {img:IMG.pkgAtv,k:'Free pickup',t:'ATV ride to a hidden waterfall',p:'RM250 / ATV →',g:'atv',o:'atv'},
-    {img:IMG.pkgAirport,k:'Payment Test',t:'Sedan transfer (Test RM1 Payment)',p:'RM1 →',g:'airport',o:'at-sedan'},
+    {img:IMG.pkgAirport,k:'Just landed?',t:'Your driver is waiting at arrival',p:'From RM60 →',g:'airport',o:'at-sedan'},
     {img:IMG.pkgCharter,k:'Full day',t:'Own car & driver for 6–8 hours',p:'From RM250 →',g:'private',o:'pt-sedan'}
   ];
   const pr=document.getElementById('promos');
@@ -1020,15 +1020,7 @@ function renderCart(){
        <small>Online Banking</small>
      </button>
    </div>
-   <p style="font-size:12px;color:var(--ink2);margin-top:10px">Secure checkout powered by Stripe. Confirmation will be emailed immediately. Questions? <a href="${waLink('Hi, I have a question about booking')}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>
-   <div style="margin-top:14px;padding:12px 14px;background:#F0FDF4;border:1.5px dashed #00B14F;border-radius:12px;text-align:center">
-     <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:6px">Mod Ujian Percuma (Tanpa Bayar / Tanpa Tolak Duit):</div>
-     <button type="button" onclick="testSimulatePayment()" style="background:#00B14F;color:#fff;border:0;font-size:13px;font-weight:700;padding:9px 18px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(0,177,79,.25)">
-       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-       Simulasi Bayaran Berjaya (Ujian Percuma RM0)
-     </button>
-     <div style="font-size:11px;color:#166534;margin-top:5px">Sistem akan menghantar invois rasmi terus ke emel anda tanpa tolak 1 sen pun.</div>
-   </div>`;
+   <p style="font-size:12px;color:var(--ink2);margin-top:10px">Secure checkout powered by Stripe. Confirmation will be emailed immediately. Questions? <a href="${waLink('Hi, I have a question about booking')}" target="_blank" rel="noopener" style="color:var(--g-d);font-weight:700">WhatsApp us</a></p>`;
   foot.innerHTML=`<button class="btn" id="cartPayBtn" onclick="checkout()"><span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="payBtnLabel">${payLabelText()}</span></span><span>${RM(cartTotal())}</span></button>`;
 }
 function rm(k){cart=cart.filter(i=>i.k!==k);store('aairis_cart',cart);updateCart();renderCart()}
@@ -1122,79 +1114,6 @@ async function checkoutStripe(o,pm){
       btn.disabled=false;
       btn.innerHTML=`<span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="payBtnLabel">${payLabelText()}</span></span><span>${RM(cartTotal())}</span>`;
     }
-  }
-}
-
-async function testSimulatePayment(){
-  const name=val('c-name')||'Muhammad Asyraf';
-  const phone=val('c-phone')||'+60 17-466 9712';
-  const email=val('c-email');
-  if(!email){
-    toast('Sila masukkan email penerima untuk ujian ini');
-    const el=document.getElementById('c-email');
-    if(el){el.classList.add('err');el.focus();}
-    return;
-  }
-  const emailRegex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if(!emailRegex.test(email)){
-    toast('Format email tidak sah (contoh: name@example.com)');
-    const el=document.getElementById('c-email');
-    if(el){el.classList.add('err');el.focus();}
-    return;
-  }
-
-  const id='AL'+Date.now().toString(36).toUpperCase().slice(-6);
-  const subtotal=cartSubtotal()||1, fee=cartTaxFee()||1.03, total=cartTotal()||2.03;
-  const items=cart.length?cart.map(i=>({name:i.name,cat:i.cat,total:i.total,details:i.details})):[
-    {name:'Sedan (Ujian Simulasi Percuma)',cat:'airport',total:1,details:['Langkawi Airport (LGK) → Hotel Cenang','Tarikh: Hari ini','Penumpang: 2']}
-  ];
-
-  let txt=`NEW BOOKING (TEST SIMULATION) – ${id}\n\n`;
-  items.forEach((i,n)=>{txt+=`${n+1}. ${CAT[i.cat]||'Service'} – ${i.name}\n${(i.details||[]).map(x=>'   • '+x).join('\n')}\n   Price: ${RM(i.total)}\n\n`});
-  txt+=`Subtotal: ${RM(subtotal)}\nGateway Fee & Tax (3% + RM1): ${RM(fee)}\nTOTAL: ${RM(total)}\n\nMethod: Test Simulation (Free)\nName: ${name}\nPhone: ${phone}\nEmail: ${email}`;
-
-  let wa=`*NEW BOOKING (TEST SIMULATION) – ${id}*\nAairis Langkawi Venture\n\n*Payment:* Test Simulation (Free RM0)\n*Subtotal:* ${RM(subtotal)}\n*Gateway Fee & Tax (3% + RM1):* ${RM(fee)}\n*Total Paid:* ${RM(total)}\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\n`;
-  wa+=`\n*Booked Services:*\n`;
-  items.forEach((i,n)=>{
-    wa+=`\n*${n+1}. ${CAT[i.cat]||'Service'} – ${i.name} (${RM(i.total)})*\n${(i.details||[]).join('\n')}\n`;
-  });
-  wa+=`\n(Ujian simulasi tempahan dan invois rasmi tanpa tolak duit)`;
-
-  const o={
-    id,
-    name,
-    phone,
-    email,
-    subtotal,
-    fee,
-    total,
-    ref:'sim_free_'+Date.now().toString(36),
-    status:'Paid (Test Simulation)',
-    date:new Date().toISOString(),
-    items,
-    notes:val('c-note')||'Ujian simulasi bayaran percuma tanpa tolak duit',
-    txt,
-    wa
-  };
-
-  toast('Menghantar invois rasmi ke emel anda…');
-  const btn=document.getElementById('cartPayBtn');
-  if(btn){btn.disabled=true;btn.textContent='Menghantar emel invois…';}
-
-  try{
-    await sendBookingEmails(o);
-    orders.unshift(o);
-    store('aairis_orders',orders);
-    cart=[];
-    store('aairis_cart',cart);
-    updateCart();
-    showStripeSuccess(o);
-    toast('Berjaya! Invois rasmi telah dihantar ke emel anda.');
-  }catch(e){
-    console.error(e);
-    toast('Ralat: '+e.message);
-  }finally{
-    if(btn){btn.disabled=false;btn.innerHTML=`<span style="display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="payBtnLabel">${payLabelText()}</span></span><span>${RM(cartTotal())}</span>`;}
   }
 }
 function openActivity(){
